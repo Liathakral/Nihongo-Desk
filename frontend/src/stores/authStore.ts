@@ -2,14 +2,13 @@ import { create } from "zustand";
 
 
 
-
 export const authStore = create((set) => ({
   user: null,
   accessToken: null,
   isAuthenticated: false,
-  isLoading: true, // 👈 IMPORTANT
+  isLoading: true,
 
-  setAuth: (user, token) =>
+  setAuth: (user: unknown, token: string) =>
     set({
       user,
       accessToken: token,

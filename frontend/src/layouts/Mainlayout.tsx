@@ -1,9 +1,9 @@
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import {  useNavigate, useLocation } from "react-router-dom";
 import DashboardPage from "../components/dashboard";
 import { useState } from "react";
 import { Dialog, Modal, ModalOverlay } from "../components/UI/Modal";
 import PerformanceForm from "../components/PerformanceFrom";
-import StudySessionForm from "../pages/StudySessionForm";
+import StudySessionForm from "../components/StudySessionForm";
 import TimelineAnalyticsView from "../components/TimeLineList";
 export default function MainLayout() {
   const navigate = useNavigate();

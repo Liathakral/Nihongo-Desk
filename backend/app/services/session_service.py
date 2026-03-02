@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.study_session import StudySession
+from app.models.study_session import StudySession
 
 
 

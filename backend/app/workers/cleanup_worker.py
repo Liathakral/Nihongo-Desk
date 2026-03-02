@@ -1,6 +1,6 @@
 from datetime import datetime
-from db.database import SessionLocal
-from models.insights import Insight
+from app.db.database import SessionLocal
+from app.models.insights import Insight
 
 import logging
 logger = logging.getLogger(__name__)

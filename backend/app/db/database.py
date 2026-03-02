@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base,Session
 from dotenv import load_dotenv
 import os
 from contextlib import contextmanager
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://nihongo_user:Nihongo123!@localhost:5432/nihongo_db")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 

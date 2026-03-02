@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.database import get_db
-from services.dependencies import get_current_user
-from services.next_action  import generate_next_action
-from models.next_action import NextAction
+from app.db.database import get_db
+from app.services.dependencies import get_current_user
+from app.services.next_action  import generate_next_action
+from app.models.next_action import NextAction
 
 router = APIRouter(prefix="/next-action", tags=["next-action"])
 

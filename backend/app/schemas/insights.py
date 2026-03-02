@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from models.insights import InsightType
+from app.models.insights import InsightType
 
 
 class InsightResponse(BaseModel):

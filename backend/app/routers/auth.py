@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
-from schemas.auth import LoginRequest, TokenResponse,SignupRequest
-from services.auth import authenticate_user, signup_user
-from db.database import SessionLocal
+from app.schemas.auth import LoginRequest, TokenResponse,SignupRequest
+from app.services.auth import authenticate_user, signup_user
+from app.db.database import SessionLocal
 
-from services.dependencies import get_current_user
-from models.users import User, RefreshToken
+from app.services.dependencies import get_current_user
+from app.models.users import User, RefreshToken
 from fastapi import Cookie
 from datetime import datetime
-from core.security import create_access_token
+from app.core.security import create_access_token
 
 router = APIRouter()
 
@@ -62,10 +62,11 @@ def login(
         key="refresh_token",
         value=token["refresh_token"],
         httponly=True,
-        secure=False,        # True only for HTTPS
-        samesite="lax",
+        secure=True,         # True only for HTTPS
+        samesite="none",
         path="/"
     )
+    print("COOKIE RECEIVED:", token["refresh_token"])
 
     return {
         "access_token": token["access_token"]

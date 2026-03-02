@@ -1,13 +1,13 @@
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.database import get_db
-from services.dependencies import get_current_user
+from app.db.database import get_db
+from app.services.dependencies import get_current_user
 
-from schemas.performance import PerformanceLogCreate, PerformanceLogResponse
-from services.performance import create_performance_log
-from core.queue import insight_queue
-from workers.insight_worker import analyze_user_learning
+from app.schemas.performance import PerformanceLogCreate, PerformanceLogResponse
+from app.services.performance import create_performance_log
+from app.core.queue import insight_queue
+from app.workers.insight_worker import analyze_user_learning
 
 router = APIRouter(prefix="/performance", tags=["performance"])
 

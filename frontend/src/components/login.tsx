@@ -16,18 +16,19 @@ export default function Login() {
     const loginRes = await api.post("/auth/login", {
       email,
       password,
+      
     });
 
-    const accessToken = loginRes.data.access_token;
-    console.log("Access Token:", accessToken);
-    // 2️⃣ Fetch user info
-    const meRes = await api.get("/auth/me");
+   const accessToken = loginRes.data.access_token;
 
-    // 3️⃣ Save auth state
-    setAuth(meRes.data, accessToken);
+  // ✅ SAVE TOKEN FIRST
+  authStore.getState().setAuth(null, accessToken);
 
-    // 4️⃣ Go to dashboard
-    navigate("/dashboard");
+  const meRes = await api.get("/auth/me");
+
+  authStore.getState().setAuth(meRes.data, accessToken);
+
+  navigate("/dashboard");
   };
 
   return (

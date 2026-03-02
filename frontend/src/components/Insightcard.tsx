@@ -5,6 +5,7 @@ interface Insight {
   title: string;
   message: string;
   severity: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   evidence: Record<string, any>;
   is_active: boolean;
   valid_until: string | null;

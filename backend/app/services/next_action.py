@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models.insights import Insight, InsightType
-from models.next_action import NextAction
+from app.models.insights import Insight, InsightType
+from app.models.next_action import NextAction
 from datetime import datetime
 
 

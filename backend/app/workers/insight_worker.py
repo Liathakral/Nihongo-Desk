@@ -1,17 +1,17 @@
 from sqlalchemy.orm import Session
-from db.database import SessionLocal
-from core.queue import insight_queue
-from services.next_action import generate_next_action
-from services.insights import generate_insights
+from app.db.database import SessionLocal
+from app.core.queue import insight_queue
+from app.services.next_action import generate_next_action
+from app.services.insights import generate_insights
 import logging
 
 logger = logging.getLogger(__name__)
 
-from models.users import User
-from models.study_session import StudySession
-from models.performance import PerformanceLog
-from models.insights import Insight
-from models.next_action import NextAction
+from app.models.users import User
+from app.models.study_session import StudySession
+from app.models.performance import PerformanceLog
+from app.models.insights import Insight
+from app.models.next_action import NextAction
 
 def analyze_user_learning(user_id: int):
     db: Session = SessionLocal()

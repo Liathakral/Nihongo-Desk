@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
 
-from schemas.performance import PerformanceLogCreate
-from models.performance import PerformanceLog
+from app.schemas.performance import PerformanceLogCreate
+from app.models.performance import PerformanceLog
 def create_performance_log(
     db: Session,
     data: PerformanceLogCreate

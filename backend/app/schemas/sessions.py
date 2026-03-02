@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from models.study_session import SkillType
+from app.models.study_session import SkillType
 
 
 

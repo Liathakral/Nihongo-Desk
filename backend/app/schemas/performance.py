@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from models.performance import MistakeType
+from app.models.performance import MistakeType
 from pydantic import  Field
 
 

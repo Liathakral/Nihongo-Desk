@@ -1,6 +1,6 @@
 from rq_scheduler import Scheduler
 from datetime import datetime
-from core.redis import redis_conn
+from app.core.redis import redis_conn
 from cleanup_worker import cleanup_expired_insights
 
 def setup_scheduler():

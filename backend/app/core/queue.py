@@ -1,5 +1,5 @@
 from rq import Queue
-from core.redis import redis_conn
+from app.core.redis import redis_conn
 
 insight_queue = Queue(
     "insight-analysis",

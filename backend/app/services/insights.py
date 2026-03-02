@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from models.insights import Insight, InsightType
-from models.performance import PerformanceLog
-from models.study_session import StudySession
+from app.models.insights import Insight, InsightType
+from app.models.performance import PerformanceLog
+from app.models.study_session import StudySession
 from sqlalchemy import func
 
 from decimal import Decimal   

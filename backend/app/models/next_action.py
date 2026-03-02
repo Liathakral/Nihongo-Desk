@@ -8,8 +8,8 @@ from sqlalchemy import (
     Boolean
 )
 from sqlalchemy.sql import func
-from db.database import Base
-from models.study_session import SkillType
+from app.db.database import Base
+from app.models.study_session import SkillType
 
 
 class NextAction(Base):

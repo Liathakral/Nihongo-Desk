@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.database import get_db
-from services.dependencies import get_current_user
-from services.timeline import get_user_timeline
-from schemas.timeline import TimelineAnalytics
+from app.db.database import get_db
+from app.services.dependencies import get_current_user
+from app.services.timeline import get_user_timeline
+from app.schemas.timeline import TimelineAnalytics
 from typing import List
 router = APIRouter(prefix="/timeline", tags=["timeline"])
 

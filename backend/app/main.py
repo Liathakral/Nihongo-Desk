@@ -1,15 +1,15 @@
 from fastapi import FastAPI
-from routers.auth import router as auth_router
+from app.routers.auth import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
-from models.users import Base
-from routers.sessions import router as study_session_router
-from routers.performance import router as performance_router
-from routers.timeline import router as timeline_router
-from routers.insights import router as insights_router
-from routers.next_action import router as next_action_router
+from app.models.users import Base
+from app.routers.sessions import router as study_session_router
+from app.routers.performance import router as performance_router
+from app.routers.timeline import router as timeline_router
+from app.routers.insights import router as insights_router
+from app.routers.next_action import router as next_action_router
 app = FastAPI()
 
-from core.logging_config import setup_logging
+from app.core.logging_config import setup_logging
 
 setup_logging()
 

@@ -1,6 +1,6 @@
 # from sqlalchemy.orm import Session
-# from models.insights import Insight
-# from models.next_action import NextAction
+# from app.models.insights import Insight
+# from app.models.next_action import NextAction
 
 # def get_user_timeline(db:Session,user_id:int):
     
@@ -35,10 +35,10 @@
 
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from models.study_session import StudySession   
-from models.performance import PerformanceLog
-from models.insights import Insight
-from models.next_action import NextAction
+from app.models.study_session import StudySession   
+from app.models.performance import PerformanceLog
+from app.models.insights import Insight
+from app.models.next_action import NextAction
 
 
 def get_user_timeline(db: Session, user_id: int):

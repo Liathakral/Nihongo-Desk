@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.database import get_db
-from services.dependencies import get_current_user
-from schemas.sessions import StudySessionCreate, StudySessionResponse
-from services.session_service import create_study_session
+from app.db.database import get_db
+from app.services.dependencies import get_current_user
+from app.schemas.sessions import StudySessionCreate, StudySessionResponse
+from app.services.session_service import create_study_session
 
 
 

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models.users import User, RefreshToken
-from core.security import create_refresh_token
+from app.models.users import User, RefreshToken
+from app.core.security import create_refresh_token
 from datetime import datetime, timedelta
 
 def create_refresh_token_for_user(db, user_id: int):
