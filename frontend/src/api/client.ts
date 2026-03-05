@@ -2,7 +2,7 @@ import axios from "axios";
 import { authStore } from "../stores/authStore";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://nihongo-desk-production.up.railway.app",
   withCredentials: true,
 });
 
