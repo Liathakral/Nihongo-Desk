@@ -38,7 +38,8 @@ def detect_repeated_mistake(db: Session, user_id: int):
             "type": InsightType.weakness,
             "title": "Recurring mistake detected",
             "message": (
-               f"Primary struggle: {mistake.value.replace('_',' ').title()} • Occurrence: repeated"
+                "primary_struggle": mistake.value.replace("_", " ").title(),
+                "occurrence": "repeated"              
             ),
             "severity": min(5, count),
             "evidence": {
