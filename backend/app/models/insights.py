@@ -36,7 +36,7 @@ class Insight(Base):
     insight_type = Column(Enum(InsightType), nullable=False)
 
     title = Column(String, nullable=False)
-    message = Column(String, nullable=False)
+    message = Column(JSON, nullable=False)
 
     evidence = Column(JSON, nullable=False)
 

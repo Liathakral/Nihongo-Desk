@@ -7,7 +7,7 @@ class InsightResponse(BaseModel):
     id: int
     insight_type: InsightType
     title: str
-    message: str
+    message: Union[str, Dict]
     severity: int
     evidence: dict
     is_active: bool
