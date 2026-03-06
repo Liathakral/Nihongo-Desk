@@ -71,10 +71,9 @@ def detect_false_progress(db: Session, user_id: int):
         return [{
             "type": InsightType.warning,
             "title": "False progress detected",
-            "message": (
-                "Confidence remains high, but accuracy has not improved. "
-                "This often happens when recognition replaces recall."
-            ),
+            "message": {
+                "text": "Confidence remains high, but accuracy has not improved. This often happens when recognition replaces recall."
+            },
             "severity": 4,
             "evidence": {
                 "avg_performance": round(avg_performance, 2),
@@ -110,10 +109,10 @@ def detect_time_pattern(db: Session, user_id: int):
         return [{
             "type": InsightType.pattern,
             "title": "Time-of-day performance pattern",
-            "message": (
-                f"Your accuracy is significantly higher during "
-                f"{best[0]} sessions compared to {worst[0]}."
-            ),
+            "message": {
+                "text": f"Your accuracy is significantly higher during "
+                        f"{best[0]} sessions compared to {worst[0]}."
+            },
             "severity": 3,
             "evidence": {
                 "best_time": best[0],
