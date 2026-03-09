@@ -54,31 +54,39 @@ def detect_repeated_mistake(db: Session, user_id: int):
 
 # ---------- RULE 2: False progress detector ----------
 
+
 def detect_false_progress(db: Session, user_id: int):
+
     rows = (
         db.query(
             func.avg(PerformanceLog.perceived_performance),
-            func.avg(PerformanceLog.confidence_rating)
+            func.avg(PerformanceLog.focus_level),
+            func.count(PerformanceLog.id)
         )
         .join(StudySession)
         .filter(StudySession.user_id == user_id)
         .all()
     )
 
-    avg_performance, avg_confidence = rows[0]
+    avg_performance, avg_focus, total_sessions = rows[0]
 
-    if avg_confidence and avg_performance and avg_confidence >= 4 and avg_performance < 0.6:
+    if not total_sessions:
+        return []
+
+    # false progress condition
+    if avg_performance >= 0.8 and avg_focus <= 3:
+
         return [{
             "type": InsightType.warning,
-            "title": "False progress detected",
+            "title": "Possible false progress",
             "message": {
-                "text": "Confidence remains high, but accuracy has not improved. This often happens when recognition replaces recall."
+                "text": "You report high performance, but focus levels remain low. This may indicate passive recognition instead of active recall."
             },
             "severity": 4,
             "evidence": {
                 "avg_performance": round(avg_performance, 2),
-                "avg_confidence": round(avg_confidence, 1)
-
+                "avg_focus": round(avg_focus, 1),
+                "sessions_analyzed": total_sessions
             }
         }]
 
