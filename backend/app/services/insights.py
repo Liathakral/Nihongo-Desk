@@ -52,7 +52,6 @@ def detect_repeated_mistake(db: Session, user_id: int):
     return insights
 
 
-# ---------- RULE 2: False progress detector ----------
 
 
 def detect_false_progress(db: Session, user_id: int):

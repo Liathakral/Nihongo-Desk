@@ -5,13 +5,12 @@ from datetime import date
 from sqlalchemy.orm import Session
 
 from app.db.database import SessionLocal
-from app.services.learning_progress import compute_user_learning_velocity
 from app.services.daily_plan import save_daily_plan
-from app.services.plan_completion import get_last_plan_completion
-from app.services.study_profile import get_study_profile
+
 
 from app.core.openai_client import client
 from app.services.nextday_planner import generate_daily_plan
+from app.utils.velocity import get_effective_velocity
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ def generate_next_day_plan(user_id: int):
 
     try:
 
-        velocity = compute_user_learning_velocity(db, user_id)
+        velocity = get_effective_velocity(db,user_id)
 
         plan = generate_daily_plan(db, user_id, velocity)
 

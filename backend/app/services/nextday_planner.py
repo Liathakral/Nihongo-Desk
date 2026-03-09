@@ -17,7 +17,7 @@ JLPT_REQUIREMENTS = {
     "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
 }
 
-def generate_daily_plan(db: Session, user_id: int, velocity: dict):
+def generate_daily_plan(db: Session, user_id: int, velocity: dict) -> dict:
 
     profile = get_study_profile(db, user_id)
 
@@ -25,7 +25,7 @@ def generate_daily_plan(db: Session, user_id: int, velocity: dict):
 
     req = JLPT_REQUIREMENTS[profile.jlpt_level]
 
-    days_remaining = (profile.exam_date - date.today()).days
+    days_remaining = (profile.target_exam_date - date.today()).days
 
     if days_remaining <= 0:
         days_remaining = 1
@@ -58,8 +58,8 @@ vocab/day = {vocab_min_daily}
 kanji/day = {kanji_min_daily}
 
 Yesterday completion:
-vocab_done = {completion.vocab_done if completion else 0}
-kanji_done = {completion.kanji_done if completion else 0}
+vocab_done = {completion["vocab_done"]}
+kanji_done = {completion["kanji_done"]}
 
 Daily study time available:
 {profile.daily_study_minutes} minutes
