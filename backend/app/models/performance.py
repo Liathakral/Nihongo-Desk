@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Chec
 
 from sqlalchemy.sql import func
 from app.db.database import Base
-from app.models.study_session import SkillType
 import enum
 
 

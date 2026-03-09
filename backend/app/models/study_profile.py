@@ -4,6 +4,7 @@ from sqlalchemy import (
     ForeignKey,
     String,
     Enum,
+    Date,
     DateTime,
     
 )
@@ -32,9 +33,9 @@ class StudyProfile(Base):
         unique=True
     )
     
-    jlpt_level = Column(enum.Enum(JLPTLevel), nullable=False)
+    jlpt_level = Column(Enum(JLPTLevel), nullable=False)
 
-    target_exam_date = Column(DateTime)
+    target_exam_date = Column(Date)
 
     daily_study_minutes = Column(Integer)
 

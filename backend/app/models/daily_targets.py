@@ -2,7 +2,7 @@
 
 
 from sqlalchemy import Column, Integer, Boolean, Date,DateTime, ForeignKey, Enum, CheckConstraint,Float, func
-from backend.app.db.database import Base
+from app.db.database import Base
 
 
 class DailyPlan(Base):

@@ -7,7 +7,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.db.database import Base
-from app.models import users,study_session,performance,next_action,insights
+from app.models import users,study_session,performance,next_action,insights,study_profile,daily_targets
 from dotenv import load_dotenv
 load_dotenv()
 target_metadata = Base.metadata

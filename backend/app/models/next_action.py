@@ -9,7 +9,6 @@ from sqlalchemy import (
 )
 from sqlalchemy.sql import func
 from app.db.database import Base
-from app.models.study_session import SkillType
 
 
 class NextAction(Base):
