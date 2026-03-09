@@ -1,5 +1,5 @@
 
-from backend.app.models.daily_targets import DailyPlan, PlanCompletion
+from app.models.daily_targets import DailyPlan, PlanCompletion
 
 
 def compute_user_learning_velocity(db, user_id):
