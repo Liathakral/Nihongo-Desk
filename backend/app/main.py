@@ -28,12 +28,15 @@ app.include_router(next_action_router, tags=["next_actions"])
 
 
 
-
+origins = [
+    "http://localhost:5173",
+    "https://nihongo-desk-production.up.railway.app",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    allow_credentials=True,                  
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
