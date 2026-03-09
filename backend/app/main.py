@@ -12,7 +12,9 @@ from app.routers.daily_target import router as Daily_target
 from app.routers.study_profile import router as study_profile
 
 app = FastAPI()
-
+@app.options("/{full_path:path}")
+async def preflight_handler():
+    return Response(status_code=200)
 from app.core.logging_config import setup_logging
 
 
@@ -27,12 +29,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 
 setup_logging()
-app.include_router(study_profile, prefix="/study-profile", tags=["auth"])
-app.include_router(Daily_target, prefix="/daily-plan", tags=["AI Tutor"])
+app.include_router(study_profile, prefix="/study-profile", tags=["study profile"])
+app.include_router(Daily_target, prefix="/daily-plan", tags=["AI planner"])
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(AI_router, prefix="/AI", tags=["AI Tutor"])
 app.include_router(study_session_router, tags=["study_sessions"])
