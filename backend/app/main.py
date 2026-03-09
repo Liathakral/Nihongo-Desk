@@ -15,18 +15,6 @@ app = FastAPI()
 
 from app.core.logging_config import setup_logging
 
-setup_logging()
-app.include_router(study_profile, prefix="/study-profile", tags=["auth"])
-app.include_router(Daily_target, prefix="/daily-plan", tags=["AI Tutor"])
-app.include_router(auth_router, prefix="/auth", tags=["auth"])
-app.include_router(AI_router, prefix="/AI", tags=["AI Tutor"])
-app.include_router(study_session_router, tags=["study_sessions"])
-app.include_router(performance_router, tags=["performance"])
-app.include_router(timeline_router, tags=["timeline"])
-app.include_router(insights_router, tags=["insights"])
-app.include_router(next_action_router, tags=["next_actions"])
-
-
 
 origins = [
     "http://localhost:5173",
@@ -40,3 +28,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+setup_logging()
+app.include_router(study_profile, prefix="/study-profile", tags=["auth"])
+app.include_router(Daily_target, prefix="/daily-plan", tags=["AI Tutor"])
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(AI_router, prefix="/AI", tags=["AI Tutor"])
+app.include_router(study_session_router, tags=["study_sessions"])
+app.include_router(performance_router, tags=["performance"])
+app.include_router(timeline_router, tags=["timeline"])
+app.include_router(insights_router, tags=["insights"])
+app.include_router(next_action_router, tags=["next_actions"])
+
