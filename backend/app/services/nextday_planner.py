@@ -5,8 +5,17 @@ from fastapi import logger
 from sqlalchemy.orm import Session
 from app.services.plan_completion import get_last_plan_completion
 from app.services.study_profile import get_study_profile
-from app.workers.daily_plan import JLPT_REQUIREMENTS
+
 from app.core.openai_client import client
+
+
+JLPT_REQUIREMENTS = {
+    "N5": {"vocab": 800, "kanji": 100, "grammar": 80},
+    "N4": {"vocab": 1500, "kanji": 300, "grammar": 120},
+    "N3": {"vocab": 3700, "kanji": 650, "grammar": 200},
+    "N2": {"vocab": 6000, "kanji": 1000, "grammar": 300},
+    "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
+}
 
 def generate_daily_plan(db: Session, user_id: int, velocity: dict):
 
