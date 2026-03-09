@@ -27,13 +27,14 @@ class PerformanceLog(Base):
     )
 
     id = Column(Integer, primary_key=True, index=True)
-
+   
     session_id = Column(
         Integer,
         ForeignKey("study_sessions.id", ondelete="CASCADE"),
         nullable=False,
         index=True
     )
+    activity_source = Column(String, nullable=True)
 
     perceived_performance = Column(Float, nullable=False)
 
@@ -47,9 +48,7 @@ class PerformanceLog(Base):
 
     difficulty_level = Column(Integer, nullable=False)
 
-    confidence_rating = Column(Integer, nullable=True)
-
-    reflection_note = Column(String, nullable=True)
+    note = Column(String, nullable=True)
 
     created_at = Column(
         DateTime(timezone=True),

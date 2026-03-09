@@ -1,11 +1,10 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from openai import OpenAI
+from app.core.openai_client import client
 
-from dotenv import load_dotenv
-import os
+
 router = APIRouter()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 
 class TutorRequest(BaseModel):

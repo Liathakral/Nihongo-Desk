@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.study_session import StudySession
+from app.schemas.sessions import StudySessionCreate
 
 
 
@@ -10,7 +11,7 @@ def create_study_session(
 ) -> StudySession:
     session = StudySession(
         user_id=user_id,
-        skill_type=data.skill_type,
+        
         started_at=data.started_at,
         ended_at=data.ended_at,
         duration_minutes=int((data.ended_at - data.started_at).total_seconds() / 60),

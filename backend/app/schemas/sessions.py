@@ -6,7 +6,6 @@ from app.models.study_session import SkillType
 
 
 class StudySessionCreate(BaseModel):
-    skill_type: SkillType
     started_at: datetime
     ended_at: datetime
     duration_minutes: int

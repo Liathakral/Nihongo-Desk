@@ -31,7 +31,6 @@ class StudySession(Base):
         index=True
     )
 
-    skill_type = Column(Enum(SkillType), nullable=False)
 
     started_at = Column(DateTime(timezone=True), nullable=False)
     ended_at = Column(DateTime(timezone=True), nullable=False)
