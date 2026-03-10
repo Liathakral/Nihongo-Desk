@@ -20,6 +20,7 @@ from app.core.logging_config import setup_logging
 
 origins = [
     "http://localhost:5173",
+    "https://nihongo-desk-a7z810684-liathakrals-projects.vercel.app",
     "https://nihongo-desk-production.up.railway.app",
 ]
 
