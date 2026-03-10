@@ -23,25 +23,21 @@ JLPT_REQUIREMENTS = {
     "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
 }
 
-
-def generate_next_day_plan(user_id: int):
+def generate_next_day_plan(user_id: int, plan_date: date):
 
     db: Session = SessionLocal()
 
     try:
-
-        velocity = get_effective_velocity(db,user_id)
+        velocity = get_effective_velocity(db, user_id)
 
         plan = generate_daily_plan(db, user_id, velocity)
 
-        save_daily_plan(db, user_id, plan)
+        save_daily_plan(db, user_id, plan, plan_date)
 
-        logger.info(f"Next plan generated for user {user_id}: {plan}")
-
+        logger.info(f"Plan generated for {plan_date} for user {user_id}")
 
     except Exception:
         logger.exception("Daily plan generation failed")
 
     finally:
         db.close()
-

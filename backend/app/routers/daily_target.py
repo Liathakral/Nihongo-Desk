@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.workers.daily_plan import generate_next_day_plan
@@ -75,9 +75,11 @@ def update_completion(
 
     db.commit()
     db.refresh(completion)
-    insight_queue.enqueue(
-    generate_next_day_plan,
-    user.id
-    )
+    if completion.completed:
+        insight_queue.enqueue(
+            generate_next_day_plan,
+            user.id,
+            date.today() + timedelta(days=1)
+        )
 
     return completion

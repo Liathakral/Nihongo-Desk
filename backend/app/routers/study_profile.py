@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from datetime import date
 
 from app.db.database import get_db
 from app.services.dependencies import get_current_user
@@ -35,13 +36,16 @@ def create_profile(
             status_code=400,
             detail="Study profile already exists"
         )
+        
 
     profile = create_study_profile(db, user.id, data)
 
   
     insight_queue.enqueue(
         generate_next_day_plan,
-        user.id
+        user.id,
+        date.today()
+        
     )
 
     return profile
