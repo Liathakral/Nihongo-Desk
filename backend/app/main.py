@@ -12,15 +12,13 @@ from app.routers.daily_target import router as Daily_target
 from app.routers.study_profile import router as study_profile
 
 app = FastAPI()
-@app.options("/{full_path:path}")
-async def preflight_handler():
-    return Response(status_code=200)
+
 from app.core.logging_config import setup_logging
 
 
 origins = [
     "http://localhost:5173",
-    "https://nihongo-desk.vercel.app/",
+    "https://nihongo-desk.vercel.app",
     "https://nihongo-desk-production.up.railway.app",
 ]
 
