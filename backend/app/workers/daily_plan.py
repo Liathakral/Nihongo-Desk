@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.services.daily_plan import save_daily_plan
 
-
+import app.models
 from app.core.openai_client import client
 from app.services.nextday_planner import generate_daily_plan
 from app.utils.velocity import get_effective_velocity
@@ -37,6 +37,7 @@ def generate_next_day_plan(user_id: int):
         save_daily_plan(db, user_id, plan)
 
         logger.info(f"Next plan generated for user {user_id}: {plan}")
+
 
     except Exception:
         logger.exception("Daily plan generation failed")

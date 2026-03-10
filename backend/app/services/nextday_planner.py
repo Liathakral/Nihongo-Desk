@@ -75,9 +75,6 @@ Yesterday completion:
 vocab_done = {completion["vocab_done"]}
 kanji_done = {completion["kanji_done"]}
 
-vocab_ratio = {completion["vocab_done"] / max(1, req["vocab"])}
-kanji_ratio = {completion["kanji_done"] / max(1, req["kanji"])}
-grammar_ratio ={ completion["grammar_done"] / max(1, req['grammar'])}
 
 Daily study time available:
 {profile.daily_study_minutes} minutes
@@ -89,16 +86,7 @@ Planning strategy:
 - Reduce workload if yesterday was incomplete.
 - Grammar must always be between 1 and 5 patterns.
 
-The focus_area must be chosen from this list:
-- vocabulary
-- kanji
-- grammar
-- reading
-- listening
-- vocabulary + grammar
-- reading + listening
-- kanji + vocabulary
-- mixed practice
+
 Core study time is already allocated for:
 
 -vocab study
@@ -125,7 +113,7 @@ Return ONLY valid JSON in this format:
 "grammar_target": int,
 "reading_minutes": int,
 "listening_minutes": int,
-"focus_area": "string"
+
 }}
 """
 
