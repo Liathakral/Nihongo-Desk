@@ -31,8 +31,4 @@ def get_study_profile(db: Session, user_id: int):
         .filter(StudyProfile.user_id == user_id)
         .first()
     )
-
-    if not profile:
-        raise ValueError("Study profile not found")
-
     return profile
