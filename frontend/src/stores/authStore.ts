@@ -1,14 +1,23 @@
 import { create } from "zustand";
 
+interface AuthStore {
+  user: unknown;
+  accessToken: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
 
+  setAuth: (user: unknown, token: string) => void;
+  setUnauthenticated: () => void;
+  logout: () => void;
+}
 
-export const authStore = create((set) => ({
+export const authStore = create<AuthStore>((set) => ({
   user: null,
   accessToken: null,
   isAuthenticated: false,
   isLoading: true,
 
-  setAuth: (user: unknown, token: string) =>
+  setAuth: (user, token) =>
     set({
       user,
       accessToken: token,

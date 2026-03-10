@@ -3,15 +3,26 @@
 import { useState } from "react";
 import api from "../api/client";
 import chatbot from "../assets/chatbot.svg";
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+interface ExamplePromptProps {
+  text: string;
+  setQuestion: React.Dispatch<React.SetStateAction<string>>;
+}
 export default function AITutorPage() {
   const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
 
   const askTutor = async () => {
     if (!question.trim()) return;
 
-    const newMessages = [...messages, { role: "user", content: question }];
+    const newMessages: ChatMessage[] = [
+      ...messages,
+      { role: "user", content: question },
+    ];
     setMessages(newMessages);
     setQuestion("");
     setLoading(true);
@@ -127,7 +138,7 @@ export default function AITutorPage() {
   );
 }
 
-function ExamplePrompt({ text, setQuestion }: any) {
+function ExamplePrompt({ text, setQuestion }: ExamplePromptProps) {
   return (
     <button
       onClick={() => setQuestion(text)}

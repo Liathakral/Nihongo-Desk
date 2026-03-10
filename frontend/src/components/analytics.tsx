@@ -15,7 +15,21 @@ import {
 import { useEffect } from "react";
 import type { InsightPreview } from "../types/dashboard";
 import { TrendingUp, Brain, Activity } from "lucide-react";
+interface InsightItemProps {
+  insight: InsightPreview;
+}
+interface AnalyticsCardProps {
+  title: string;
+  children: React.ReactNode;
+}
+interface SummaryCardProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+}
+
 export default function TimelineAnalyticsView() {
+
   const {
     loading,
     error,
@@ -52,7 +66,7 @@ export default function TimelineAnalyticsView() {
           icon={<Brain size={20} />}
           label="Weakest Area"
           value={timeline?.weakest_area || "N/A"}
-          highlight
+         
         />
 
         <SummaryCard
@@ -110,26 +124,7 @@ export default function TimelineAnalyticsView() {
             </LineChart>
           </ResponsiveContainer>
         </AnalyticsCard>
-
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-savory-sage">
-            Recent Insights
-          </h2>
-
-          <div className="flex flex-col gap-5">
-            {timeline.recent_insights ? (
-              timeline.recent_insights.map(
-                (insight: InsightPreview, index: number) => (
-                  <InsightItem key={index} insight={insight} />
-                ),
-              )
-            ) : (
-              <p className="text-sm text-gray-500">No insights available.</p>
-            )}
-          </div>
-        </div>
-      </div>
-      <AnalyticsCard title="Mistake Distribution">
+ <AnalyticsCard title="Mistake Distribution">
         <ResponsiveContainer width="50%" height={220}>
           <RadialBarChart
             innerRadius="55%"
@@ -139,7 +134,7 @@ export default function TimelineAnalyticsView() {
             endAngle={0}
           >
             <RadialBar
-              minAngle={10}
+              
               dataKey="count"
               cornerRadius={8}
               fill="#8EA6C9"
@@ -156,11 +151,31 @@ export default function TimelineAnalyticsView() {
           </RadialBarChart>
         </ResponsiveContainer>
       </AnalyticsCard>
+       
+      </div>
+     
+       <div className="space-y-4">
+          <h2 className="text-xl font-bold text-savory-sage">
+            Recent Insights
+          </h2>
+
+          <div className="flex flex-col gap-5">
+            {timeline.recent_insights ? (
+              timeline.recent_insights.map(
+                (insight: InsightPreview, index: number) => (
+                  <InsightItem key={index} insight={insight} />
+                ),
+              )
+            ) : (
+              <p className="text-sm text-gray-500">No insights available.</p>
+            )}
+          </div>
+        </div>
     </div>
   );
 }
 
-function InsightItem({ insight }: any) {
+function InsightItem({ insight }: InsightItemProps) {
   const message = insight.message;
 
   return (
@@ -215,7 +230,7 @@ function InsightItem({ insight }: any) {
   );
 }
 
-function SummaryCard({ icon, label, value }: any) {
+function SummaryCard({ icon, label, value }: SummaryCardProps) {
   return (
     <div
       className="rounded-xl   p-5   flex items-center gap-4 
@@ -242,7 +257,8 @@ function SummaryCard({ icon, label, value }: any) {
   );
 }
 
-function AnalyticsCard({ title, children }: any) {
+
+function AnalyticsCard({ title, children }:AnalyticsCardProps) {
   return (
     <div
       className=" rounded-2xl p-5 

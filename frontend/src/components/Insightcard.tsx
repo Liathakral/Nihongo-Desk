@@ -1,22 +1,6 @@
 import { AlertTriangle, Brain, Clock, TrendingUp } from "lucide-react";
 
-interface InsightMessage {
-  primary_struggle?: string;
-  occurrence?: string;
-  text?: string;
-}
-
-interface Insight {
-  id: number;
-  insight_type: string;
-  title: string;
-  message: InsightMessage;
-  severity: number;
-  evidence: Record<string, any>;
-  is_active: boolean;
-  valid_until: string | null;
-}
-
+import type { Insight } from "../types/dashboard";
 interface Props {
   insight: Insight;
 }

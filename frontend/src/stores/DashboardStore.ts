@@ -34,9 +34,9 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         timeline: timelineRes.data,
         loading: false,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       set({
-        error: err?.message || "Failed to load dashboard",
+        error: err instanceof Error ? err.message : "Failed to load dashboard",
         loading: false,
       });
     }

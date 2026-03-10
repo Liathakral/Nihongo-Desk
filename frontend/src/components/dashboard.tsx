@@ -7,6 +7,7 @@ import nihongodesk from "../assets/nihongodesk.svg";
 import Timeline from "./TimeLineList";
 import profile from "../assets/user_profile.svg";
 import { useNavigate } from "react-router-dom";
+
 export default function DashboardPage() {
   const {
     insights,
@@ -55,8 +56,8 @@ export default function DashboardPage() {
         </div>
         <div className=" grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {insights.map((insight) => (
-            <InsightCard key={insight.id} insight={insight} />
-          ))}
+    <InsightCard key={insight.id} insight={insight} />
+  ))}
         </div>
         <Timeline />
       </div>

@@ -8,8 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import MainLayout from "./layouts/Mainlayout";
 export default function App() {
-  const setAuth = authStore((s: AuthStore) => s.setAuth);
-  const setUnauthenticated = authStore((s: AuthStore) => s.setUnauthenticated);
+ const setAuth = authStore((s) => s.setAuth);
+const setUnauthenticated = authStore((s) => s.setUnauthenticated);
 useEffect(() => {
   let mounted = true;
 
@@ -43,7 +43,7 @@ useEffect(() => {
   return () => {
     mounted = false;
   };
-}, []);
+}, [setAuth, setUnauthenticated]);
 
 
   return (
