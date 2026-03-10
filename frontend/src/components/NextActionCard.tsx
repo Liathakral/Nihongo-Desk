@@ -1,4 +1,4 @@
-
+import { Clock, Target, Activity, Brain } from "lucide-react";
 
 interface NextAction {
   id: number;
@@ -10,6 +10,7 @@ interface NextAction {
   is_active: boolean;
   created_at: string;
 }
+
 interface Props {
   action: NextAction | null;
 }
@@ -25,41 +26,55 @@ const actionLabelMap: Record<string, string> = {
 export default function NextActionCard({ action }: Props) {
   if (!action) return null;
 
-  const label =
-    actionLabelMap[action.action_type] ?? action.action_type;
+  const label = actionLabelMap[action.action_type] ?? action.action_type;
 
   return (
-    <div className="bg-honey-oatmilk rounded-2xl shadow-sm p-6 border border-oat-latte">
-      <h2 className="text-lg font-semibold text-savory-sage mb-3">
+    <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
+      {/* Title */}
+      <h2 className="text-xl font-bold text-orange-500 mb-4 flex items-center gap-2">
+        <Brain size={22} />
         Next Recommended Action
       </h2>
 
-      <div className="space-y-2 text-black">
-        <p className="font-medium text-md">
+      {/* Action Type */}
+      <div className="bg-orange-50 rounded-xl p-4 mb-4">
+        <p className="font-semibold text-md  text-gray-800 flex items-center gap-2">
+          <Target size={18} className="text-orange-500" />
           {label}
         </p>
-
-        <p className="text-sm">
-          Duration: {action.duration_minutes} minutes
-        </p>
-
-        <p className="text-sm">
-          Difficulty: {action.difficulty_level} / 5
-        </p>
-
-        <div className="mt-4 p-3 bg-white rounded-lg border border-oat-latte">
-          <p className="text-sm italic text-savory-sage">
-            {action.message}
-          </p>
-        </div>
-
-        {/* Optional reasoning preview */}
-      {action.reasoning.mistake_type && (
-  <p className="text-xs text-blush-beet mt-2">
-    Focus area: {action.reasoning.mistake_type}
-  </p>
-)}
       </div>
+
+      {/* Metrics Row */}
+
+      {/* Duration */}
+      <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-2 my-4 rounded-lg text-sm font-medium">
+        <Clock size={16} />
+        {action.duration_minutes} min
+      </div>
+
+      {/* Difficulty */}
+
+      <div className="flex items-center gap-2 my-4 bg-purple-50 text-purple-700 px-3 py-2 rounded-lg text-sm font-medium">
+        <Activity size={16} />
+        Difficulty {action.difficulty_level}/5
+      </div>
+
+      {/* Message */}
+      <div className="bg-gray-50 rounded-xl p-4">
+        <p className="text-gray-600 italic text-sm">{action.message}</p>
+      </div>
+
+      {/* Focus Area */}
+      {action.reasoning?.mistake_type && (
+        <div className="mt-4 text-sm text-red-400 font-medium flex flex-col gap-2">
+          <h1 className="font-bold flex items-center gap-2">
+            {" "}
+            <Target size={13} />
+            Focus area
+          </h1>
+          <h2>{action.reasoning.mistake_type.replace("_", " ")}</h2>
+        </div>
+      )}
     </div>
   );
 }

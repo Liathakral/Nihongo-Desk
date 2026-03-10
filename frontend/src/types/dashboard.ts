@@ -12,17 +12,17 @@ export interface NextAction {
   created_at: string;
 }
 
-interface AccuracyPoint {
+export interface AccuracyPoint {
   date: string;
   accuracy: number;
 }
 
-interface MistakeBreakdownItem {
+export  interface MistakeBreakdownItem {
   mistake_type: string;
   count: number;
 }
 
-interface InsightPreview {
+export interface InsightPreview {
   title: string;
   message: string;
   severity: number;

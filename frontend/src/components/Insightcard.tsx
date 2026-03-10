@@ -1,11 +1,17 @@
+import { AlertTriangle, Brain, Clock, TrendingUp } from "lucide-react";
+
+interface InsightMessage {
+  primary_struggle?: string;
+  occurrence?: string;
+  text?: string;
+}
 
 interface Insight {
   id: number;
   insight_type: string;
   title: string;
-  message: string;
+  message: InsightMessage;
   severity: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   evidence: Record<string, any>;
   is_active: boolean;
   valid_until: string | null;
@@ -15,74 +21,64 @@ interface Props {
   insight: Insight;
 }
 
+const iconMap = {
+  weakness: AlertTriangle,
+  pattern: TrendingUp,
+  progress: Brain,
+  warning: AlertTriangle,
+};
+
 export default function InsightCard({ insight }: Props) {
-  // const severityColor =
-  //   insight.severity >= 5
-  //     ? "bg-blush-beet"
-  //     : insight.severity >= 3
-  //     ? "bg-avocado-smoothie"
-  //     : "bg-peach-protein";
+  const Icon = iconMap[insight.insight_type as keyof typeof iconMap] || Brain;
 
   return (
-   
-      <div
-            className="bg-linear-to-r from-[#88a6dc] to-[#8EA6C9]   relative
-p-5 rounded-2xl text-white  h-54 shadow-md"
-          >
-            <h3 className="font-semibold text-lg text-nowrap">{insight.title}</h3>
+    <div
+      className="relative p-6 rounded-3xl text-white shadow-xl
+      bg-linear-to-br from-[#7c96c5] to-[#8EA6C9]
+      hover:scale-[1.02] transition-all duration-300"
+    >
+      {/* icon badge */}
+      <div className="absolute top-5 right-5 bg-white/20 p-2 rounded-xl">
+        <Icon className=" size-3 lg:size-5" />
+      </div>
 
-            <div className="flex items-center gap-2 mt-2 text-sm opacity-90">
-              <span>{insight.insight_type}</span>
-              <span>•</span>
-              <span>Tue</span>
-            </div>
+      {/* title */}
+      <h3 className="font-semibold lg:text-lg text-md w-[70%] mb-2">
+        {insight.title}
+      </h3>
 
-            <div className="flex items-center absolute bottom-10   mt-4 text-sm">
-              <span className="bg-white/20 px-2 py-1 rounded-md h-20 w-50">
-              {insight.message.length > 100
-                ? <span> {insight.message.substring(0, 100) + "..."}</span>
-                : <span>{insight.message} </span>}
-              </span>
-             
-             </div>
+      {/* type badge */}
+      <div className="lg:text-sm text-xs font-bold  mb-4 flex items-center gap-2">
+        <span className="bg-white/30 px-3 py-1  rounded-full  uppercase tracking-wide">
+          {insight.insight_type}
+        </span>
+      </div>
 
-            <div className="mt-4 text-xs opacity-80 absolute bottom-2">
-              Valid until:{" "}
-              {insight.valid_until
-                ? new Date(insight.valid_until).toLocaleDateString()
-                : "N/A"}    
-            
+      {/* message box */}
+      <div className="bg-white/40  backdrop-blur-sm p-3 rounded-xl lg:text-sm text-xs mb-4 ">
+        {insight.message.primary_struggle && (
+          <p>
+            <b>Primary Struggle:</b> {insight.message.primary_struggle}
+          </p>
+        )}
 
-            </div>
-            </div>
-            
-          
+        {insight.message.occurrence && (
+          <p>
+            <b>Occurrence:</b> {insight.message.occurrence}
+          </p>
+        )}
 
+        {insight.message.text && <p>{insight.message.text}</p>}
+      </div>
+
+      {/* footer */}
+      <div className="flex items-center gap-2 lg:text-sm text-xs opacity-80 absolute bottom-4">
+        <Clock size={14} />
+        Valid until{" "}
+        {insight.valid_until
+          ? new Date(insight.valid_until).toLocaleDateString()
+          : "N/A"}
+      </div>
+    </div>
   );
 }
-  
-    // <div className="bg-white rounded-2xl shadow-sm p-6 border border-oat-latte">
-    //   <div className={`w-3 h-3 rounded-full mb-3 ${severityColor}`} />
-
-    //   <div className="flex justify-between items-start mb-2">
-    //     <h3 className="text-md font-medium text-savory-sage">
-    //       {insight.title}
-        
-    //     </h3>
-
-    //     <span className="text-xs text-oat-latte uppercase tracking-wide">
-    //       {insight.insight_type}
-    //     </span>
-    //   </div>
-
-    //   <p className="text-sm text-savory-sage mb-3">
-    //     {insight.message}
-    //   </p>
-
-    //   {insight.valid_until && (
-    //     <p className="text-xs text-oat-latte">
-    //       Valid until: {new Date(insight.valid_until).toLocaleDateString()}
-    //     </p>
-    //   )}
-    // </div>
-

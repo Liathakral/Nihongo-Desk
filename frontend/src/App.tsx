@@ -58,9 +58,11 @@ useEffect(() => {
             </ProtectedRoute>
           }
         >
-   <Route path="/dashboard" />
+        <Route path="/dashboard" />
           <Route path="/study" />
-          <Route path="timeline"/>
+          <Route path="/analytics"/>
+          <Route path="/chatbot"/>
+           {/* <Route path="/dailyplans"/> */}
 
         </Route>
 

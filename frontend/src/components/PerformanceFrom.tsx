@@ -13,16 +13,17 @@ export default function PerformanceForm({ sessionId, onSuccess }: Props) {
   const [difficultyLevel, setDifficultyLevel] = useState(3);
   const [confidenceRating, setConfidenceRating] = useState<number | null>(null);
   const [reflectionNote, setReflectionNote] = useState("");
-
+  const [activitySource, setActivitySource] = useState("");
   const handleSubmit = async () => {
     await api.post("/performance/", {
       session_id: sessionId,
+      activity_source: activitySource,
       perceived_performance: perceivedPerformance,
       primary_struggle: primaryStruggle,
       focus_level: focusLevel,
       difficulty_level: difficultyLevel,
-      confidence_rating: confidenceRating,
-      reflection_note: reflectionNote || null,
+
+      note: reflectionNote || null,
     });
 
     onSuccess();
@@ -33,6 +34,16 @@ export default function PerformanceForm({ sessionId, onSuccess }: Props) {
       <h2 className="text-lg font-semibold text-savory-sage mb-4">
         Session Reflection
       </h2>
+      <div className="mb-4">
+        <label className="text-sm text-gray-600">Source</label>
+        <input
+          type="text"
+          placeholder="https://japanesetest4you.com/"
+          value={activitySource}
+          onChange={(e) => setActivitySource(e.target.value)}
+          className="w-full border rounded-lg p-2 mt-1"
+        />
+      </div>
 
       {/* Performance (0–1 float) */}
       <div className="mb-4">

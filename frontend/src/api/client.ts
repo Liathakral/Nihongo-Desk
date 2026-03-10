@@ -2,7 +2,7 @@ import axios from "axios";
 import { authStore } from "../stores/authStore";
 
 const api = axios.create({
-  baseURL: "https://nihongo-desk-production.up.railway.app",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 

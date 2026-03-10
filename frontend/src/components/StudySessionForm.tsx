@@ -11,7 +11,6 @@ export default function StudySessionForm({
 const [isRunning, setIsRunning] = useState(false);
 const [seconds, setSeconds] = useState(0);
 const [startTime, setStartTime] = useState<Date | null>(null);
-const [skillType, setSkillType] = useState("reading");
 const [timeBucket, setTimeBucket] = useState("morning");
 const intervalRef = useRef<number | null>(null);
   useEffect(() => {
@@ -43,7 +42,7 @@ const intervalRef = useRef<number | null>(null);
     setIsRunning(false);
 
     const res= await api.post("/sessions/", {
-      skill_type: skillType,
+     
       started_at: startTime,
       ended_at: endTime,
       duration_minutes: durationMinutes,
@@ -67,61 +66,90 @@ const intervalRef = useRef<number | null>(null);
   };
 
   return (
-    <div className="bg-white p-6  rounded-2xl border border-oat-latte shadow-sm w-4/6 text-center">
-      <div className="text-4xl font-semibold text-savory-sage mb-6">
+    
+    <div className="  flex items-center justify-center  w-full  ">
+ <div className="
+     
+    w-[50%]
+      rounded-3xl
+      shadow-md
+      border border-[#ece9e1]
+      p-8 
+      text-center
+    ">     
+     
+      <div className="text-6xl font-bold text-avocado-smoothie mb-8 tracking-wide">
         {formatTime()}
       </div>
-       <select
-        className="border border-oat-latte p-2 text-black rounded-lg mb-4 w-full"
-        value={skillType}
-        onChange={(e) => setSkillType(e.target.value)}
 
-      >
-        <option value="reading">Reading</option>
-        <option value="grammar">Grammar</option>
-        <option value="vocab">Vocabulary</option>
-         <option value="listening">Listening</option>
-      </select>
-         
-       <select
-        className="border border-oat-latte p-2 text-black rounded-lg mb-4 w-full"
-        value={timeBucket}
-        onChange={(e) => setTimeBucket(e.target.value)}
+      
 
-      >
-        <option value="morning">Morning</option>
-        <option value="afternoon">Afternoon</option>
-        <option value="evening">Evening</option>
-         <option value="night">Night</option>
-  
-      </select>
-     
+      {/* Time bucket */}
+      <div className="mb-6 text-left">
+        <label className="text-sm text-gray-500 mb-1 block">
+          Time of day
+        </label>
+
+        <select
+          className="
+          w-full
+          border border-gray-200
+          rounded-xl
+          cursor-pointer
+          p-3
+          bg-gray-50
+          focus:outline-none focus:ring-2 focus:ring-savory-sage
+          "
+          value={timeBucket}
+          onChange={(e) => setTimeBucket(e.target.value)}
+        >
+          <option value="morning">Morning</option>
+          <option value="afternoon">Afternoon</option>
+          <option value="evening">Evening</option>
+          <option value="night">Night</option>
+        </select>
+      </div>
+
+      {/* Buttons */}
+
       {!isRunning ? (
         <button
           onClick={handleStart}
-          className="bg-savory-sage text-white px-6 py-2 rounded-xl"
+          className="
+          w-full
+          bg-avocado-smoothie
+          text-white
+          py-3
+          rounded-xl
+          text-lg
+          font-semibold
+          hover:opacity-90
+          transition
+          cursor-pointer
+          "
         >
-          Start Session
-                 
-
+          Start Study Session
         </button>
       ) : (
         <button
           onClick={handleEnd}
-          className="bg-blush-beet text-white px-6 py-2 rounded-xl"
+          className="
+          w-full
+          bg-rose-500
+          text-white
+          py-3
+          rounded-xl
+          text-lg
+          font-semibold
+          hover:opacity-90
+          transition
+          cursor-pointer
+          "
         >
           End Session
         </button>
       )}
     </div>
+    </div>
   );
 }
-
-// function getTimeBucket(date: Date) {
-//   const hour = date.getHours();
-
-//   if (hour < 12) return "morning";
-//   if (hour < 17) return "afternoon";
-//   if (hour < 21) return "evening";
-//   return "night";
-// }

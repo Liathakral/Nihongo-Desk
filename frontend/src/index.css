@@ -29,6 +29,5 @@ html,
 body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
-  background-color: var(--color-coconut-cream);
-
+ 
 }
