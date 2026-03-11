@@ -10,7 +10,7 @@ from app.routers.next_action import router as next_action_router
 from app.routers.AI_tutor import router as AI_router
 from app.routers.daily_target import router as Daily_target
 from app.routers.study_profile import router as study_profile
-
+from app.routers.plan_stream import router as stream_router
 app = FastAPI()
 
 from app.core.logging_config import setup_logging
@@ -33,6 +33,8 @@ app.add_middleware(
 
 
 setup_logging()
+app.include_router(stream_router, prefix="/logs", tags=["stream"])
+
 app.include_router(study_profile, prefix="/study-profile", tags=["study profile"])
 app.include_router(Daily_target, prefix="/daily-plan", tags=["AI planner"])
 app.include_router(auth_router, prefix="/auth", tags=["auth"])

@@ -58,3 +58,37 @@ export interface TimelineAnalytics {
   weakest_area: string | null;
   trend_direction: string;
 }
+
+
+// types/planner.ts  ← create this file
+export interface StudyPlan {
+  id: number;
+  vocab_target: number;
+  kanji_target: number;
+  grammar_target: number;
+  reading_minutes: number;
+  listening_minutes: number;
+}
+
+export interface PlanCompletion {
+  completed: boolean;
+  vocab_done: number;
+  kanji_done: number;
+  grammar_done: number;
+  reading_minutes_done: number;
+  listening_minutes_done: number;
+}
+
+export interface StudyProfile {
+  id: number;
+  // add whatever fields your API returns
+  // e.g. name, level, goals etc.
+}
+
+export interface CompletionForm {
+  vocab_done: number;
+  kanji_done: number;
+  grammar_done: number;
+  reading_minutes_done: number;
+  listening_minutes_done: number;
+}

@@ -7,6 +7,7 @@ import nihongodesk from "../assets/nihongodesk.svg";
 import Timeline from "./TimeLineList";
 import profile from "../assets/user_profile.svg";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "./UI/loader";
 
 export default function DashboardPage() {
   const {
@@ -23,7 +24,10 @@ export default function DashboardPage() {
   }, [fetchDashboard]);
 
   if (loading) {
-    return <div className="text-sm text-gray-500">Loading dashboard...</div>;
+    return (
+      
+         <Loader text={"fetching dashboard"}/>
+    )
   }
 
   if (error) {

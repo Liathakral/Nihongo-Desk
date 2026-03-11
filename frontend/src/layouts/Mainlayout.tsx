@@ -7,19 +7,16 @@ import DashboardPage from "../components/dashboard";
 import { useLocation } from "react-router-dom";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiRobot3Line } from "react-icons/ri";
-
-// import NihongoDesk from "../assets/nihongodesk.svg";
+import { SlCalender } from "react-icons/sl";
 import { Dialog, Modal, ModalOverlay } from "../components/UI/Modal";
-import PerformanceForm from "../components/PerformanceFrom";
-// import StudySessionForm from "../components/StudySessionForm";
-// import TimelineAnalyticsView from "../components/TimeLineList";
+import PerformanceForm from "../components/PerformanceForm";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 import TimelineAnalyticsView from "../components/analytics";
 import AITutorPage from "../components/ChatBot";
 import StudySessionForm from "../components/StudySessionForm";
-// import DevTestPage from "../components/Ai_test";
+import AIPlanner from "../components/DailyPlanner";
 export default function MainLayout() {
   const navigate = useNavigate();
   const [sidebaropen, setsidebaropen] = useState(true);
@@ -29,7 +26,7 @@ export default function MainLayout() {
   return (
     <div className=" flex h-screen  bg-avocado-smoothie/10 ">
       <div
-        className={` py-20 shrink-0 relative h-full flex flex-col items-center bg-white text-mauve-500 rounded-4xl transition-all duration-500
+        className={` py-20 shrink-0 relative h-full flex flex-col items-center bg-white text-mauve-500 rounded-r-4xl transition-all duration-500
   ${sidebaropen ? "w-64  " : "w-20 "}`}
       >
         {" "}
@@ -45,7 +42,7 @@ export default function MainLayout() {
               size={20}
             />
           )}
-          {/* <Outlet context={{ sidebaropen }} /> */}
+          {}
         </button>
         <div
           className={`  text-nowrap  text-xl font-bold font-serif flex items-center gap-2 transition-all duration-500`}
@@ -61,7 +58,6 @@ export default function MainLayout() {
             <IoHomeOutline size={22} />
             {sidebaropen && <span>Dashboard</span>}
           </a>
-
           <a
             onClick={() => navigate("/analytics")}
             className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
@@ -69,7 +65,6 @@ export default function MainLayout() {
             <IoIosAnalytics size={22} />
             {sidebaropen && <span>Analytics</span>}
           </a>
-
           <a
             onClick={() => navigate("/study")}
             className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
@@ -82,22 +77,19 @@ export default function MainLayout() {
             className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
           >
             <RiRobot3Line size={22} />
-
             {sidebaropen && <span>Talk To AI</span>}
           </a>
-          {/* <a
+          <a
             onClick={() => navigate("/dailyplans")}
             className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
           >
-            <RiRobot3Line  size={22}/>
-
-            {sidebaropen && <span>Talk To AI</span>}
-          </a> */}
+            <SlCalender size={22} />
+            {sidebaropen && <span>AI Planner</span>}
+          </a>
         </nav>
       </div>
-
       {location.pathname === "/dashboard" && <DashboardPage />}
-      {/* {location.pathname === "/dailyplans" && <DevTestPage />} */}
+      {location.pathname === "/dailyplans" && <AIPlanner />}
       {location.pathname === "/analytics" && <TimelineAnalyticsView />}
       {location.pathname === "/chatbot" && <AITutorPage />}
       {location.pathname === "/study" && (
@@ -123,8 +115,6 @@ export default function MainLayout() {
           </Modal>
         </ModalOverlay>
       )}
-
-     
     </div>
   );
 }

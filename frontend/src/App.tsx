@@ -62,7 +62,7 @@ useEffect(() => {
           <Route path="/study" />
           <Route path="/analytics"/>
           <Route path="/chatbot"/>
-           {/* <Route path="/dailyplans"/> */}
+           <Route path="/dailyplans"/>
 
         </Route>
 
