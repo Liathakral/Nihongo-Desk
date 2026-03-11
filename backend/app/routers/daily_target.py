@@ -83,3 +83,25 @@ def update_completion(
         )
 
     return completion
+
+@router.get("/{plan_id}/completion", response_model=PlanCompletionResponse)
+def get_completion(
+    plan_id: int,
+    db: Session = Depends(get_db),
+    user = Depends(get_current_user)
+):
+
+    completion = (
+        db.query(PlanCompletion)
+        .join(DailyPlan, DailyPlan.id == PlanCompletion.plan_id)
+        .filter(
+            PlanCompletion.plan_id == plan_id,
+            DailyPlan.user_id == user.id
+        )
+        .first()
+    )
+
+    if not completion:
+        raise HTTPException(status_code=404, detail="Completion not found")
+
+    return completion
