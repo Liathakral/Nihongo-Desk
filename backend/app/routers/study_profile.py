@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import date
@@ -39,16 +41,21 @@ def create_profile(
         
 
     profile = create_study_profile(db, user.id, data)
-
+    
   
+    job_id = str(uuid4())
+
     insight_queue.enqueue(
         generate_next_day_plan,
         user.id,
-        date.today()
-        
+        date.today(),
+        job_id
     )
 
-    return profile
+    return {
+        **profile.__dict__,
+        "job_id": job_id
+    }
 
 
 @router.get("/", response_model=StudyProfileResponse)
