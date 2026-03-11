@@ -25,18 +25,27 @@ JLPT_REQUIREMENTS = {
 
 def generate_next_day_plan(user_id: int, plan_date: date):
 
+    print("WORKER STARTED")
+    print("USER:", user_id)
+    print("PLAN DATE:", plan_date)
+
     db: Session = SessionLocal()
 
     try:
         velocity = get_effective_velocity(db, user_id)
+        print("VELOCITY:", velocity)
 
         plan = generate_daily_plan(db, user_id, velocity)
+        print("AI GENERATED PLAN:", plan)
 
         save_daily_plan(db, user_id, plan, plan_date)
 
+        print("PLAN SAVED SUCCESSFULLY")
+
         logger.info(f"Plan generated for {plan_date} for user {user_id}")
 
-    except Exception:
+    except Exception as e:
+        print("WORKER ERROR:", e)
         logger.exception("Daily plan generation failed")
 
     finally:

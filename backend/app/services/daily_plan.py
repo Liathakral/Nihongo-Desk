@@ -4,11 +4,12 @@ from app.models.daily_targets import DailyPlan
 
 
 def save_daily_plan(db: Session, user_id: int, plan: dict,plan_date:date):
-
-    
-
+    print("SAVE DAILY PLAN CALLED")
+    print("USER:", user_id)
+    print("PLAN DATE:", plan_date)
+    print("PLAN:", plan)
     try:
-
+    
         required_fields = [
             "vocab_target",
             "kanji_target",
@@ -32,7 +33,7 @@ def save_daily_plan(db: Session, user_id: int, plan: dict,plan_date:date):
 
         if existing:
             return existing
-
+       
         new_plan = DailyPlan(
             user_id=user_id,
             date=plan_date,
@@ -42,6 +43,7 @@ def save_daily_plan(db: Session, user_id: int, plan: dict,plan_date:date):
             reading_minutes=int(plan["reading_minutes"]),
             listening_minutes=int(plan["listening_minutes"]),
         )
+        print(new_plan,"new plan")
 
         db.add(new_plan)
         db.commit()
