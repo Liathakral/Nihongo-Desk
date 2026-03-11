@@ -33,7 +33,7 @@ app.add_middleware(
 
 
 setup_logging()
-app.include_router(stream_router, prefix="/logs", tags=["stream"])
+app.include_router(stream_router, tags=["stream"])
 
 app.include_router(study_profile, prefix="/study-profile", tags=["study profile"])
 app.include_router(Daily_target, prefix="/daily-plan", tags=["AI planner"])
