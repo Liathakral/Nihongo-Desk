@@ -9,6 +9,8 @@ router = APIRouter()
 
 r = redis_conn
 
+import json
+
 @router.get("/logs/{job_id}")
 async def stream_logs(job_id: str):
 
@@ -20,9 +22,16 @@ async def stream_logs(job_id: str):
             message = pubsub.get_message(ignore_subscribe_messages=True)
 
             if message:
+
+                data = message["data"]
+
+                # ensure proper JSON
+                if isinstance(data, bytes):
+                    data = data.decode()
+
                 yield {
                     "event": "log",
-                    "data": message["data"]
+                    "data": data
                 }
 
             await asyncio.sleep(0.1)
@@ -30,12 +39,17 @@ async def stream_logs(job_id: str):
     return EventSourceResponse(event_generator())
 
 
-
 @router.get("/logs/{job_id}/history")
 def get_logs(job_id: str):
 
     logs = redis_conn.lrange(f"job:{job_id}:logs", 0, -1)
 
-    return {
-        "logs": [json.loads(log) for log in logs]
-    }
+    parsed_logs = []
+
+    for log in logs:
+        try:
+            parsed_logs.append(json.loads(log))
+        except:
+            pass
+
+    return {"logs": parsed_logs}
