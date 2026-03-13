@@ -42,6 +42,8 @@ class PlanCompletionResponse(BaseModel):
 
     reading_minutes_done: int
     listening_minutes_done: int
+    job_id: str | None = None 
+
 
     completed: bool
 
