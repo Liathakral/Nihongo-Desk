@@ -26,3 +26,10 @@ async def stream_logs(job_id: str):
             await asyncio.sleep(0.1)
 
     return EventSourceResponse(event_generator())
+
+@router.get("/logs/{job_id}/history")
+def get_logs(job_id: str):
+
+    logs = redis_conn.lrange(f"job:{job_id}:logs", 0, -1)
+
+    return {"logs": logs}

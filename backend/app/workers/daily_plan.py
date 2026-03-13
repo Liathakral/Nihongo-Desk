@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 
 from sqlalchemy.orm import Session
 
@@ -22,23 +22,38 @@ JLPT_REQUIREMENTS = {
     "N2": {"vocab": 6000, "kanji": 1000, "grammar": 300},
     "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
 }
+def publish_log(job_id: str, message: str):
 
+    key = f"job:{job_id}:logs"
+
+    log_line = f"[{datetime.utcnow().isoformat()}] {message}"
+
+    # store log
+    redis_conn.rpush(key, log_line)
+
+    # keep last 100 logs
+    redis_conn.ltrim(key, -100, -1)
+
+    # realtime stream
+    redis_conn.publish(f"job:{job_id}", log_line)
+    
 def generate_next_day_plan(user_id: int, plan_date: date, job_id: str):
 
     db: Session = SessionLocal()
     try:
-        redis_conn.publish(f"job:{job_id}", "Starting plan generation")
+        
+        publish_log(job_id, "Starting plan generation")
 
         velocity = get_effective_velocity(db, user_id)
-        redis_conn.publish(f"job:{job_id}", "Velocity calculated")
+        publish_log(job_id, "Velocity calculated")
 
         plan = generate_daily_plan(db, user_id, velocity)
-        redis_conn.publish(f"job:{job_id}", "Daily plan generated")
+        publish_log(job_id, "Daily plan generated")
 
         save_daily_plan(db, user_id, plan, plan_date)
-        redis_conn.publish(f"job:{job_id}", "Plan saved to database")
+        publish_log(job_id, "Plan saved")
 
-        redis_conn.publish(f"job:{job_id}", "Job finished")
+        publish_log(job_id, "Job finished")
 
     except Exception as e:
         redis_conn.publish(f"job:{job_id}", f"Error: {str(e)}")
