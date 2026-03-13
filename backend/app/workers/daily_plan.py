@@ -22,7 +22,11 @@ JLPT_REQUIREMENTS = {
     "N2": {"vocab": 6000, "kanji": 1000, "grammar": 300},
     "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
 }
+import json
+from datetime import datetime
+
 def publish_log(job_id: str, message: str, level: str="INFO", progress: int | None=None):
+
     key = f"job:{job_id}:logs"
 
     payload = {
@@ -32,10 +36,12 @@ def publish_log(job_id: str, message: str, level: str="INFO", progress: int | No
         "progress": progress
     }
 
-    redis_conn.rpush(key, json.dumps(payload))
+    log = json.dumps(payload)
+
+    redis_conn.rpush(key, log)
     redis_conn.ltrim(key, -100, -1)
 
-    redis_conn.publish(f"job:{job_id}", json.dumps(payload))
+    redis_conn.publish(f"job:{job_id}", log)
     
 def generate_next_day_plan(user_id: int, plan_date: date, job_id: str):
 
