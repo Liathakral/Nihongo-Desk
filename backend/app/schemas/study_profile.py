@@ -12,6 +12,7 @@ class StudyProfileCreate(BaseModel):
     vocab_known: int = 0
     kanji_known: int = 0
     grammar_known: int = 0
+    
 
 
 class StudyProfileResponse(BaseModel):
@@ -24,6 +25,7 @@ class StudyProfileResponse(BaseModel):
     vocab_known: int
     kanji_known: int
     grammar_known: int
+    job_id: str | None = None 
 
     class Config:
         from_attributes = True
