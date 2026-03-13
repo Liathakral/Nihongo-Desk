@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from sse_starlette.sse import EventSourceResponse
+from sse_starlette import EventSourceResponse
 from core.redis import redis_conn
 import asyncio
 
