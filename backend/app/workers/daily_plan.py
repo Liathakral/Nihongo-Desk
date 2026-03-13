@@ -22,38 +22,43 @@ JLPT_REQUIREMENTS = {
     "N2": {"vocab": 6000, "kanji": 1000, "grammar": 300},
     "N1": {"vocab": 10000, "kanji": 2000, "grammar": 400},
 }
-def publish_log(job_id: str, message: str):
-
+def publish_log(job_id: str, message: str, level: str="INFO", progress: int | None=None):
     key = f"job:{job_id}:logs"
 
-    log_line = f"[{datetime.utcnow().isoformat()}] {message}"
+    payload = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "level": level,
+        "message": message,
+        "progress": progress
+    }
 
-    # store log
-    redis_conn.rpush(key, log_line)
-
-    # keep last 100 logs
+    redis_conn.rpush(key, json.dumps(payload))
     redis_conn.ltrim(key, -100, -1)
 
-    # realtime stream
-    redis_conn.publish(f"job:{job_id}", log_line)
+    redis_conn.publish(f"job:{job_id}", json.dumps(payload))
     
 def generate_next_day_plan(user_id: int, plan_date: date, job_id: str):
 
     db: Session = SessionLocal()
     try:
         
-        publish_log(job_id, "Starting plan generation")
-
+        publish_log(job_id, "Starting plan generation", "INFO", 10)
         velocity = get_effective_velocity(db, user_id)
-        publish_log(job_id, "Velocity calculated")
 
+        publish_log(job_id, "Velocity calculated", "INFO", 40)
         plan = generate_daily_plan(db, user_id, velocity)
-        publish_log(job_id, "Daily plan generated")
 
+        publish_log(job_id, "Daily plan generated", "INFO", 70)
         save_daily_plan(db, user_id, plan, plan_date)
-        publish_log(job_id, "Plan saved")
 
+        publish_log(job_id, "Plan saved", "SUCCESS", 100)
         publish_log(job_id, "Job finished")
+
+        publish_log(job_id, "Job finished", "SUCCESS", 100)
+
+
+
+
 
     except Exception as e:
         redis_conn.publish(f"job:{job_id}", f"Error: {str(e)}")
