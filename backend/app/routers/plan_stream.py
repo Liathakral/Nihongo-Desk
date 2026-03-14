@@ -53,3 +53,10 @@ def get_logs(job_id: str):
             pass
 
     return {"logs": parsed_logs}
+
+@router.get("/logs/active")
+def get_active_job():
+
+    job_id = redis_conn.get("active_job")
+
+    return {"job_id": job_id}

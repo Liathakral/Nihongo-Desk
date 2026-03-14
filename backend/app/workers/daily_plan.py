@@ -25,9 +25,13 @@ JLPT_REQUIREMENTS = {
 import json
 from datetime import datetime
 
-def publish_log(job_id: str, message: str, level: str="INFO", progress: int | None=None):
+# app/utils/logger.py
 
-    key = f"job:{job_id}:logs"
+import json
+from datetime import datetime
+from app.core.redis import redis_conn
+
+def publish_log(job_id: str, message: str, level: str = "INFO", progress: int | None = None):
 
     payload = {
         "timestamp": datetime.utcnow().isoformat(),
@@ -38,10 +42,13 @@ def publish_log(job_id: str, message: str, level: str="INFO", progress: int | No
 
     log = json.dumps(payload)
 
-    redis_conn.rpush(key, log)
-    redis_conn.ltrim(key, -100, -1)
+    redis_conn.rpush(f"job:{job_id}:logs", log)
+    redis_conn.ltrim(f"job:{job_id}:logs", -100, -1)
 
     redis_conn.publish(f"job:{job_id}", log)
+
+    # store active job for reload recovery
+    redis_conn.set("active_job", job_id)
     
 def generate_next_day_plan(user_id: int, plan_date: date, job_id: str):
 
