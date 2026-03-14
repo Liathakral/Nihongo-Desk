@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoIosAnalytics } from "react-icons/io";
 import { PiBooks } from "react-icons/pi";
-import DashboardPage from "../components/dashboard";
+import DashboardPage from "../components/Dashboard";
 import { useLocation } from "react-router-dom";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiRobot3Line } from "react-icons/ri";
@@ -13,10 +13,13 @@ import PerformanceForm from "../components/PerformanceForm";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-import TimelineAnalyticsView from "../components/analytics";
+import { FiActivity } from "react-icons/fi";
+
+import TimelineAnalyticsView from "../components/Analytics";
 import AITutorPage from "../components/ChatBot";
 import StudySessionForm from "../components/StudySessionForm";
 import AIPlanner from "../components/DailyPlanner";
+import Logger from "../components/UI/Logger";
 export default function MainLayout() {
   const navigate = useNavigate();
   const [sidebaropen, setsidebaropen] = useState(true);
@@ -86,12 +89,20 @@ export default function MainLayout() {
             <SlCalender size={22} />
             {sidebaropen && <span>AI Planner</span>}
           </a>
+          <a
+            onClick={() => navigate("/logger")}
+            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
+          >
+            <FiActivity size={22} />
+            {sidebaropen && <span>logger</span>}
+          </a>
         </nav>
       </div>
       {location.pathname === "/dashboard" && <DashboardPage />}
       {location.pathname === "/dailyplans" && <AIPlanner />}
       {location.pathname === "/analytics" && <TimelineAnalyticsView />}
       {location.pathname === "/chatbot" && <AITutorPage />}
+      {location.pathname==="/logger" && <Logger/>}
       {location.pathname === "/study" && (
         <StudySessionForm
           onSessionCreated={(id) => {

@@ -50,6 +50,7 @@ export default function AITutorPage() {
   return (
     <div className="h-screen  flex flex-col  w-full pb-10 ">
       {/* Header */}
+    
       <div className="   p-9 ">
         <div className="  flex items-center gap-3">
           <img src={chatbot} className=" size-10" />

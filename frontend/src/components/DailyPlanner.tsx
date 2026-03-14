@@ -15,20 +15,36 @@ import type {
   StudyProfile,
 } from "../types/dashboard";
 import CreateProfileModal from "./StudyProfile";
-import { Loader } from "./UI/loader";
+import { Loader } from "./UI/Loader";
+import { useJobLogs } from "../hooks/LogHook";
 export default function AIPlanner() {
   const [plan, setPlan] = useState<StudyPlan | null>(null);
+  const { connectLogs } = useJobLogs();
+  const [jobId, setJobId] = useState<string | null>(null);
+
   const [completion, setCompletion] = useState<PlanCompletion | null>(null);
   const [profile, setProfile] = useState<StudyProfile | null>(null);
   const [loadingPlan, setLoadingPlan] = useState(true);
   const [loadingProfile, setLoadingProfile] = useState(true);
-
+  const [form, setForm] = useState({
+    vocab_done: "",
+    kanji_done: "",
+    grammar_done: "",
+    reading_minutes_done: "",
+    listening_minutes_done: "",
+  });
+  useEffect(() => {
+    if (jobId) {
+      connectLogs(jobId);
+    }
+  }, [jobId, connectLogs]);
   async function fetchProfile() {
     setLoadingProfile(true);
 
     try {
       const res = await api.get("/study-profile/");
       setProfile(res.data);
+
       console.log(res.data);
     } catch {
       setProfile(null);
@@ -36,13 +52,6 @@ export default function AIPlanner() {
       setLoadingProfile(false);
     }
   }
-  const [form, setForm] = useState({
-    vocab_done: 0,
-    kanji_done: 0,
-    grammar_done: 0,
-    reading_minutes_done: 0,
-    listening_minutes_done: 0,
-  });
 
   async function fetchPlan() {
     setLoadingPlan(true);
@@ -62,31 +71,38 @@ export default function AIPlanner() {
   useEffect(() => {
     fetchPlan();
     fetchProfile();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-
     setForm({
       ...form,
-      [e.target.name]: Number(e.target.value),
+      [e.target.name]: e.target.value,
     });
   }
 
   function calculateProgress() {
     if (!plan) return 0;
 
-    const vocab = form.vocab_done / plan.vocab_target;
-    const kanji = form.kanji_done / plan.kanji_target;
-    const grammar = form.grammar_done / plan.grammar_target;
-    const reading = form.reading_minutes_done / plan.reading_minutes;
-    const listening = form.listening_minutes_done / plan.listening_minutes;
+    const vocab = Number(form.vocab_done) / plan.vocab_target;
+    const kanji = Number(form.kanji_done) / plan.kanji_target;
+    const grammar = Number(form.grammar_done) / plan.grammar_target;
+    const reading = Number(form.reading_minutes_done) / plan.reading_minutes;
+    const listening =
+      Number(form.listening_minutes_done) / plan.listening_minutes;
 
     const progress = (vocab + kanji + grammar + reading + listening) / 5;
 
     return Math.min(100, Math.round(progress * 100));
   }
 
+useEffect(() => {
+  const savedJobId = localStorage.getItem("lastJobId")
+  if (savedJobId) {
+    connectLogs(savedJobId)  // ← only here on reload
+  }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
   async function completePlan() {
     if (!plan) return;
 
@@ -97,7 +113,11 @@ export default function AIPlanner() {
       });
 
       setCompletion(res.data);
-      console.log(completion);
+      console.log(res.data.job_id);
+      const jobId = res.data.job_id;
+      localStorage.setItem("lastJobId", jobId);
+      setJobId(jobId);
+      connectLogs(jobId);
 
       setForm({
         vocab_done: res.data.vocab_done || 0,
@@ -111,10 +131,11 @@ export default function AIPlanner() {
     }
   }
 
+ 
   async function fetchCompletion(planId: number) {
     try {
       const res = await api.get(`/daily-plan/${planId}/completion`);
-
+      console.log(res.data);
       setCompletion(res.data);
 
       setForm({
@@ -137,7 +158,7 @@ export default function AIPlanner() {
   const progress = calculateProgress();
 
   return (
-    <div className="min-h-screen  p-6 md:p-10">
+    <div className="h-screen overflow-y-auto  p-6 md:p-10">
       {/* HEADER */}
       <div className="mb-10 flex items-center gap-3">
         <Brain className="text-avocado-smoothie" size={34} />

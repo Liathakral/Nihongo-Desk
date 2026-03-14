@@ -1,21 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/client";
 import { ModalOverlay, Modal, Dialog } from "../components/UI/Modal";
-
+import { useJobLogs } from "../hooks/LogHook";
 const JLPT_LEVELS = ["N5", "N4", "N3", "N2", "N1"] as const;
 
-const LEVEL_META: Record<string, { label: string; color: string; desc: string }> = {
-  N5: { label: "N5", color: "bg-emerald-100 text-emerald-700 ring-emerald-300", desc: "Beginner" },
-  N4: { label: "N4", color: "bg-lime-100 text-lime-700 ring-lime-300", desc: "Elementary" },
-  N3: { label: "N3", color: "bg-yellow-100 text-yellow-700 ring-yellow-300", desc: "Intermediate" },
-  N2: { label: "N2", color: "bg-orange-100 text-orange-700 ring-orange-300", desc: "Upper-Inter" },
-  N1: { label: "N1", color: "bg-red-100 text-red-700 ring-red-300", desc: "Advanced" },
+const LEVEL_META: Record<
+  string,
+  { label: string; color: string; desc: string }
+> = {
+  N5: {
+    label: "N5",
+    color: "bg-emerald-100 text-emerald-700 ring-emerald-300",
+    desc: "Beginner",
+  },
+  N4: {
+    label: "N4",
+    color: "bg-lime-100 text-lime-700 ring-lime-300",
+    desc: "Elementary",
+  },
+  N3: {
+    label: "N3",
+    color: "bg-yellow-100 text-yellow-700 ring-yellow-300",
+    desc: "Intermediate",
+  },
+  N2: {
+    label: "N2",
+    color: "bg-orange-100 text-orange-700 ring-orange-300",
+    desc: "Upper-Inter",
+  },
+  N1: {
+    label: "N1",
+    color: "bg-red-100 text-red-700 ring-red-300",
+    desc: "Advanced",
+  },
 };
 
 export default function CreateProfileModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const { connectLogs } = useJobLogs();
+  
   const [form, setForm] = useState({
     jlpt_level: "N3",
     target_exam_date: "",
@@ -25,25 +50,40 @@ export default function CreateProfileModal() {
     grammar_known: 0,
   });
   const [loading, setLoading] = useState(false);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleChange(e: any) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
   async function createProfile() {
     setLoading(true);
+
     try {
-      await api.post("/study-profile/", {
+      const res = await api.post("/study-profile/", {
         ...form,
         target_exam_date: new Date(form.target_exam_date).toISOString(),
       });
+
+      const jobId = res.data.job_id; // ✅ extract job_id
+
+      console.log("JOB ID:", jobId);
+      localStorage.setItem("lastJobId", jobId)
+      connectLogs(jobId); // ✅ pass it here
+
       setIsOpen(false);
-     
     } catch (err) {
       console.log(err);
     }
+
     setLoading(false);
   }
+  useEffect(() => {
+    const savedJobId = localStorage.getItem("lastJobId");
+    if (savedJobId) {
+      connectLogs(savedJobId); 
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
 
   return (
     <>
@@ -53,8 +93,18 @@ export default function CreateProfileModal() {
         className="group relative cursor-pointer overflow-hidden rounded-2xl bg-avocado-smoothie px-6 py-3.5 text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-xl active:scale-[0.98]"
       >
         <span className="relative z-10 flex items-center gap-2 font-semibold tracking-wide">
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2.5}
+              d="M12 4v16m8-8H4"
+            />
           </svg>
           Create Study Profile
         </span>
@@ -91,7 +141,6 @@ export default function CreateProfileModal() {
 
               {/* Form body */}
               <div className="space-y-5 px-8 py-6">
-
                 {/* JLPT Level selector */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-400">
@@ -106,14 +155,17 @@ export default function CreateProfileModal() {
                         className={`
                           flex flex-col items-center gap-0.5 rounded-xl px-2 py-2.5 ring-1 text-center
                           transition-all duration-200 cursor-pointer
-                          ${form.jlpt_level === lvl
-                            ? `${LEVEL_META[lvl].color} ring-2 scale-105 shadow-sm font-bold`
-                            : "bg-gray-50 text-gray-500 ring-gray-200 hover:bg-gray-100"
+                          ${
+                            form.jlpt_level === lvl
+                              ? `${LEVEL_META[lvl].color} ring-2 scale-105 shadow-sm font-bold`
+                              : "bg-gray-50 text-gray-500 ring-gray-200 hover:bg-gray-100"
                           }
                         `}
                       >
                         <span className="text-sm font-bold">{lvl}</span>
-                        <span className="text-[9px] opacity-70">{LEVEL_META[lvl].desc}</span>
+                        <span className="text-[9px] opacity-70">
+                          {LEVEL_META[lvl].desc}
+                        </span>
                       </button>
                     ))}
                   </div>
@@ -144,7 +196,9 @@ export default function CreateProfileModal() {
                   </label>
                   <div className="flex items-center gap-3">
                     <div className="relative flex-1">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">⏱</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        ⏱
+                      </span>
                       <input
                         type="number"
                         name="daily_study_minutes"
@@ -153,13 +207,17 @@ export default function CreateProfileModal() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-700 outline-none transition focus:border-avocado-smoothie focus:bg-white focus:ring-2 focus:ring-avocado-smoothie/20"
                       />
                     </div>
-                    <span className="text-sm font-medium text-gray-400">min / day</span>
+                    <span className="text-sm font-medium text-gray-400">
+                      min / day
+                    </span>
                   </div>
                   {/* Visual indicator */}
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
                     <div
                       className="h-full rounded-full bg-avocado-smoothie transition-all duration-500"
-                      style={{ width: `${Math.min((Number(form.daily_study_minutes) / 240) * 100, 100)}%` }}
+                      style={{
+                        width: `${Math.min((Number(form.daily_study_minutes) / 240) * 100, 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -189,7 +247,9 @@ export default function CreateProfileModal() {
                             className="w-full bg-transparent text-sm text-gray-700 outline-none placeholder:text-gray-300"
                           />
                         </div>
-                        <p className="mt-0.5 text-center text-[10px] text-gray-400">{label}</p>
+                        <p className="mt-0.5 text-center text-[10px] text-gray-400">
+                          {label}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -212,16 +272,41 @@ export default function CreateProfileModal() {
                   <span className="relative z-10 flex items-center gap-2">
                     {loading ? (
                       <>
-                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                        <svg
+                          className="h-4 w-4 animate-spin"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8z"
+                          />
                         </svg>
                         Creating…
                       </>
                     ) : (
                       <>
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                         Create Profile
                       </>

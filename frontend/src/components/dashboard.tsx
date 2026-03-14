@@ -1,33 +1,25 @@
 import { useEffect } from "react";
-
 import { useDashboardStore } from "../stores/DashboardStore";
-import NextActionCard from "../components/NextActionCard";
-import InsightCard from "../components/Insightcard";
+import NextActionCard from "./NextActionCard";
+import InsightCard from "./InsightCard";
 import nihongodesk from "../assets/nihongodesk.svg";
-import Timeline from "./TimeLineList";
+import Timeline from "./TimelineList";
 import profile from "../assets/user_profile.svg";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "./UI/loader";
+import { Loader } from "./UI/Loader";
+
 
 export default function DashboardPage() {
-  const {
-    insights,
-    nextAction,
-    loading,
-    error,
-    fetchDashboard,
-  } = useDashboardStore();
-  const navigate =useNavigate();
+  const { insights, nextAction, loading, error, fetchDashboard } =
+    useDashboardStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDashboard();
   }, [fetchDashboard]);
 
   if (loading) {
-    return (
-      
-         <Loader text={"fetching dashboard"}/>
-    )
+    return <Loader text={"fetching dashboard"} />;
   }
 
   if (error) {
@@ -45,9 +37,11 @@ export default function DashboardPage() {
               こんにちは! Welcome Back to your 日本語 デスク, Let's get some
               work done!
             </h1>
-            <button onClick={()=>navigate("/study")}  className="  text-md mt-5 px-6 py-3 rounded-full bg-avocado-smoothie text-white font-semibold hover:bg-amber-800/50 cursor-pointer transition-colors duration-300">
+            <button
+              onClick={() => navigate("/study")}
+              className="  text-md mt-5 px-6 py-3 rounded-full bg-avocado-smoothie text-white font-semibold hover:bg-amber-800/50 cursor-pointer transition-colors duration-300"
+            >
               Start Studying
-
             </button>
           </div>
           <img
@@ -60,8 +54,8 @@ export default function DashboardPage() {
         </div>
         <div className=" grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {insights.map((insight) => (
-    <InsightCard key={insight.id} insight={insight} />
-  ))}
+            <InsightCard key={insight.id} insight={insight} />
+          ))}
         </div>
         <Timeline />
       </div>

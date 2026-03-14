@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import type { InsightPreview } from "../types/dashboard";
 import { TrendingUp, Brain, Activity,  AlertTriangle, Flame } from "lucide-react";
-import Loader from "./UI/loader";
+import Loader from "./UI/Loader";
 interface InsightItemProps { insight: InsightPreview; index: number; }
 interface AnalyticsCardProps { title: string; children: React.ReactNode; className?: string; }
 interface SummaryCardProps {
