@@ -8,6 +8,7 @@ import {
   Headphones,
   BookOpen,
   CheckCircle,
+  RefreshCw,
 } from "lucide-react";
 import type {
   PlanCompletion,
@@ -158,38 +159,74 @@ useEffect(() => {
   const progress = calculateProgress();
 
   return (
-    <div className="h-screen overflow-y-auto  p-6 md:p-10">
+    <div className="h-screen w-full overflow-y-auto  p-6 md:p-10">
       {/* HEADER */}
       <div className="mb-10 flex items-center gap-3">
-        <Brain className="text-avocado-smoothie" size={34} />
-        <h1 className="text-3xl  md:text-4xl font-bold text-avocado-smoothie">
+        <Brain className="text-amber-800/60" size={34} />
+        <h1 className="text-xl  font-mono font-semibold  text-amber-800/60 ">
           Today's Study Plan
         </h1>
       </div>
 
       {!loadingPlan && !loadingProfile && !profile && (
-        <div className="bg-white p-8 rounded-2xl shadow-md text-center space-y-4">
-          <p className="text-gray-600">
-            No study profile found. Create one to generate your AI study plan.
-          </p>
+  <div className="flex flex-col items-center justify-center text-center
+                  bg-white border border-stone-200 rounded-2xl
+                  px-8 py-14 gap-5 max-w-md mx-auto">
+    
+    {/* Icon */}
+    <div className="w-12 h-12 rounded-2xl bg-stone-100 flex items-center
+                    justify-center text-stone-400">
+      <Brain size={22} />
+    </div>
 
-          <CreateProfileModal />
-        </div>
-      )}
-      {!loadingPlan && !loadingProfile && profile && !plan && (
-        <div className="bg-white p-8 rounded-2xl shadow-md text-center space-y-4">
-          <p className="text-gray-600">
-            Your profile exists but today's plan hasn't been generated yet.
-          </p>
+    {/* Text */}
+    <div className="space-y-1.5">
+      <h3 className="text-fluid-md font-bold text-stone-700">
+        No study profile yet
+      </h3>
+      <p className="text-fluid-xs text-stone-400 max-w-xs leading-relaxed">
+        Create a profile so we can build your personalised AI study plan.
+      </p>
+    </div>
 
-          <button
-            onClick={fetchPlan}
-            className="bg-avocado-smoothie text-white px-6 py-3 rounded-xl"
-          >
-            Refresh Plan
-          </button>
-        </div>
-      )}
+    <CreateProfileModal />
+  </div>
+)}
+
+{!loadingPlan && !loadingProfile && profile && !plan && (
+  <div className="flex flex-col  items-center justify-center text-center
+                  bg-white border border-stone-200 rounded-2xl
+                  px-8 py-14 gap-5 max-w-md mx-auto">
+
+    {/* Icon */}
+    <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center
+                    justify-center text-amber-500">
+      <RefreshCw size={20} />
+    </div>
+
+    {/* Text */}
+    <div className="space-y-1.5">
+      <h3 className="text-fluid-md font-bold text-stone-700">
+        Plan not generated yet
+      </h3>
+      <p className="text-fluid-xs text-stone-400 max-w-xs leading-relaxed">
+        Your profile is ready — today's study plan just needs to be generated.
+      </p>
+    </div>
+
+    <button
+      onClick={fetchPlan}
+      className="flex items-center gap-2 px-5 py-2.5 rounded-full
+                 bg-stone-800 hover:bg-stone-700 text-white
+                 text-fluid-xs font-semibold
+                 transition-all duration-200 hover:-translate-y-0.5
+                 shadow-sm hover:shadow-md cursor-pointer"
+    >
+      <RefreshCw size={13} />
+      Refresh Plan
+    </button>
+  </div>
+)}
       {plan && (
         <div className="grid lg:grid-cols-2 gap-8">
           {/* TARGETS */}

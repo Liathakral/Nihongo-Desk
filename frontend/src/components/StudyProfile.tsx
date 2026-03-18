@@ -114,11 +114,11 @@ export default function CreateProfileModal() {
 
       {/* MODAL */}
       <ModalOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
-        <Modal className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
+        <Modal className="mx-auto w-full max-w-md overflow-y-auto  rounded-3xl bg-white shadow-2xl">
           <Dialog>
             <div>
               {/* Header stripe */}
-              <div className="relative bg-avocado-smoothie px-8 py-6 overflow-hidden">
+              <div className="relative bg-avocado-smoothie px-8 py-6 ">
                 {/* Decorative circles */}
                 <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-white/10" />
                 <div className="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/10" />

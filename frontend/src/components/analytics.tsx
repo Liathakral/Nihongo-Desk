@@ -88,7 +88,7 @@ export default function TimelineAnalyticsView() {
     <div
       className={`
         min-h-screen w-full overflow-y-auto px-7 py-8
-        bg-linear-to-br from-[#fdf8f3] via-[#f5f0ea] to-[#eef4f8]
+        bg-stone-100
         transition-all duration-700
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
       `}

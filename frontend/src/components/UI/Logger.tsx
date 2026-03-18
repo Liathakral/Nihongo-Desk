@@ -45,7 +45,7 @@ export default function Logger() {
 
         
           return (
-              <div key={i} className="flex gap-4 font-mono text-sm">
+              <div key={i} className="flex gap-4 font-mono text-[11px]">
 
     <span className="text-gray-500 w-20">
       {new Date(log.timestamp).toLocaleTimeString()}

@@ -26,78 +26,104 @@ export default function MainLayout() {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSessionId, setActiveSessionId] = useState<number | null>(null);
+
+  const navItems = [
+  { label: "Dashboard",     icon: IoHomeOutline,  path: "/dashboard" },
+  { label: "Analytics",     icon: IoIosAnalytics, path: "/analytics" },
+  { label: "Study Session", icon: PiBooks,        path: "/study"     },
+  { label: "Talk To AI",    icon: RiRobot3Line,   path: "/chatbot"   },
+  { label: "AI Planner",    icon: SlCalender,     path: "/dailyplans"},
+  { label: "Logger",        icon: FiActivity,     path: "/logger"    },
+]
+
   return (
-    <div className=" flex h-screen  bg-avocado-smoothie/10 ">
-      <div
-        className={` py-20 shrink-0 relative h-full flex flex-col items-center bg-white text-mauve-500 rounded-r-4xl transition-all duration-500
-  ${sidebaropen ? "w-64  " : "w-20 "}`}
+    <div className=" flex h-screen  bg-stone-100 ">
+      <div className={`
+      relative shrink-0 h-full flex flex-col
+      bg-white border-r border-stone-100
+      transition-all duration-300
+      ${sidebaropen ? "w-56" : "w-16"}
+    `}>
+
+      {/* Toggle button */}
+      <button
+        onClick={() => setsidebaropen(!sidebaropen)}
+        className="absolute -right-3 top-6 z-10
+                   w-6 h-6 rounded-full bg-white
+                   border border-stone-200 shadow-sm
+                   flex items-center justify-center
+                   text-stone-400 hover:text-stone-600
+                   transition-colors duration-150 cursor-pointer"
       >
-        {" "}
-        <button className="absolute -right-3 top-5 cursor-pointer rounded-full bg-white p-1 shadow-lg">
-          {sidebaropen ? (
-            <MdKeyboardDoubleArrowLeft
-              onClick={() => setsidebaropen(false)}
-              size={20}
-            />
-          ) : (
-            <MdKeyboardDoubleArrowRight
-              onClick={() => setsidebaropen(true)}
-              size={20}
-            />
-          )}
-          {}
-        </button>
-        <div
-          className={`  text-nowrap  text-xl font-bold font-serif flex items-center gap-2 transition-all duration-500`}
-        >
-          <img src={logo} alt="Logo" className="h-10" />
-          {sidebaropen && <h1>Nihongo Desk</h1>}
-        </div>
-        <nav className=" pt-20 transition-all duration-500 space-y-10 flex flex-col cursor-pointer text-gray-500 text-md font-semibold">
-          <a
-            onClick={() => navigate("/dashboard")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <IoHomeOutline size={22} />
-            {sidebaropen && <span>Dashboard</span>}
-          </a>
-          <a
-            onClick={() => navigate("/analytics")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <IoIosAnalytics size={22} />
-            {sidebaropen && <span>Analytics</span>}
-          </a>
-          <a
-            onClick={() => navigate("/study")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <PiBooks size={22} />
-            {sidebaropen && <span>Study session</span>}
-          </a>
-          <a
-            onClick={() => navigate("/chatbot")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <RiRobot3Line size={22} />
-            {sidebaropen && <span>Talk To AI</span>}
-          </a>
-          <a
-            onClick={() => navigate("/dailyplans")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <SlCalender size={22} />
-            {sidebaropen && <span>AI Planner</span>}
-          </a>
-          <a
-            onClick={() => navigate("/logger")}
-            className={`flex hover:text-olive-600 ${sidebaropen ? "items-center justify-start" : "items-center justify-center"} gap-4`}
-          >
-            <FiActivity size={22} />
-            {sidebaropen && <span>logger</span>}
-          </a>
-        </nav>
+        {sidebaropen
+          ? <MdKeyboardDoubleArrowLeft size={13} />
+          : <MdKeyboardDoubleArrowRight size={13} />}
+      </button>
+
+      {/* Logo */}
+      <div className={`
+        flex items-center gap-2.5 shrink-0
+        px-4 py-5 border-b border-stone-100
+        ${!sidebaropen && "justify-center px-0"}
+      `}>
+        <img src={logo} alt="Logo" className="h-7 w-7 shrink-0 object-contain" />
+        {sidebaropen && (
+          <span className="text-sm font-bold text-stone-700 font-serif whitespace-nowrap">
+            Nihongo Desk
+          </span>
+        )}
       </div>
+
+      {/* Nav */}
+      <nav className="flex flex-col gap-1 px-2 pt-4 flex-1">
+        {navItems.map(({ label, icon: Icon, path }) => {
+          const active = location.pathname === path
+          return (
+            <button
+              key={path}
+              onClick={() => navigate(path)}
+              className={`
+                flex items-center  gap-3 rounded-xl cursor-pointer
+                transition-all duration-150 group w-full text-left
+                ${sidebaropen ? "px-3 py-2.5" : "px-0 py-2.5 justify-center"}
+                ${active
+                  ? "bg-stone-100 text-stone-800"
+                  : "text-stone-400 hover:bg-stone-50 hover:text-stone-600"
+                }
+              `}
+            >
+              {/* Icon wrapper — active gets a subtle amber dot */}
+              <div className="relative shrink-0">
+                <Icon size={16} />
+                {active && (
+                  <span className="absolute -top-0.5 -right-0.5
+                                   w-1.5 h-1.5 rounded-full bg-amber-500" />
+                )}
+              </div>
+
+              {sidebaropen && (
+                <span className={`
+                  text-fluid-xs font-semibold whitespace-nowrap
+                  tracking-wide transition-colors duration-150
+                  ${active ? "text-stone-800" : "text-stone-400 group-hover:text-stone-600"}
+                `}>
+                  {label}
+                </span>
+              )}
+
+              {/* Active bar */}
+              {active && sidebaropen && (
+                <div className="ml-auto w-1 h-4 rounded-full bg-amber-400 shrink-0" />
+              )}
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* Bottom fade */}
+      <div className="h-8 shrink-0" />
+    </div>
+    
       {location.pathname === "/dashboard" && <DashboardPage />}
       {location.pathname === "/dailyplans" && <AIPlanner />}
       {location.pathname === "/analytics" && <TimelineAnalyticsView />}

@@ -54,7 +54,7 @@ export default function AITutorPage() {
       <div className="   p-9 ">
         <div className="  flex items-center gap-3">
           <img src={chatbot} className=" size-10" />
-          <h1 className="text-3xl font-bold  text-avocado-smoothie">Chat</h1>
+          <h1 className="text-xl font-bold  text-avocado-smoothie">Chat</h1>
         </div>
       </div>
 
@@ -62,11 +62,11 @@ export default function AITutorPage() {
       <div className="flex-1 overflow-y-auto max-w-4xl w-full mx-auto p-6 space-y-6">
         {messages.length === 0 && (
           <div className="text-center mt-16 space-y-6">
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-xs">
               Grammar • Vocabulary • Kanji • Sentence explanations
             </p>
 
-            <div className="grid md:grid-cols-2 gap-4  cursor-pointer max-w-xl mx-auto mt-8">
+            <div className="grid  md:grid-cols-2 gap-4  cursor-pointer max-w-xl mx-auto mt-8">
               <ExamplePrompt
                 text="Explain grammar 〜てしまう"
                 setQuestion={setQuestion}
@@ -119,17 +119,17 @@ export default function AITutorPage() {
       </div>
 
       <div className="">
-        <div className="w-[100vh] mx-auto p-4 flex gap-3">
+        <div className="w-[100vh] mx-auto p-3 flex gap-3">
           <input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Ask your Japanese tutor..."
-            className="flex-1  rounded-full bg-white px-4 py-5 outline-none focus:ring-2 focus:ring-avocado-smoothie"
+            className="flex-1  rounded-full bg-white px-4  outline-none focus:ring-2 focus:ring-avocado-smoothie text-xs"
           />
 
           <button
             onClick={askTutor}
-            className="bg-avocado-smoothie/80 font-semibold hover:bg-avocado-smoothie text-white px-9 py-5 cursor-pointer rounded-full transition"
+            className="bg-avocado-smoothie/80 font-semibold text-xs hover:bg-avocado-smoothie text-white px-9 py-4 cursor-pointer rounded-full transition"
           >
             Ask
           </button>
@@ -143,7 +143,7 @@ function ExamplePrompt({ text, setQuestion }: ExamplePromptProps) {
   return (
     <button
       onClick={() => setQuestion(text)}
-      className="p-5 text-center font-medium text-sm cursor-pointer  rounded-full bg-avocado-smoothie/20 hover:scale-[0.9] transition"
+      className="p-4 text-center font-medium text-[11px] cursor-pointer  rounded-full bg-avocado-smoothie/20 hover:scale-[0.9] transition-all duration-200"
     >
       {text}
     </button>

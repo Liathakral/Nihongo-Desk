@@ -74,11 +74,11 @@ const intervalRef = useRef<number | null>(null);
       rounded-3xl
       shadow-md
       border border-[#ece9e1]
-      p-8 
+      p-9 
       text-center
     ">     
      
-      <div className="text-6xl font-bold text-avocado-smoothie mb-8 tracking-wide">
+      <div className="text-2xl font-bold text-amber-800/50 mb-8 tracking-wide">
         {formatTime()}
       </div>
 
@@ -86,7 +86,7 @@ const intervalRef = useRef<number | null>(null);
 
       {/* Time bucket */}
       <div className="mb-6 text-left">
-        <label className="text-sm text-gray-500 mb-1 block">
+        <label className="text-sm text-gray-700 mb-1 block">
           Time of day
         </label>
 
@@ -96,6 +96,7 @@ const intervalRef = useRef<number | null>(null);
           border border-gray-200
           rounded-xl
           cursor-pointer
+          text-xs
           p-3
           bg-gray-50
           focus:outline-none focus:ring-2 focus:ring-savory-sage
@@ -116,12 +117,12 @@ const intervalRef = useRef<number | null>(null);
         <button
           onClick={handleStart}
           className="
-          w-full
-          bg-avocado-smoothie
+          
+          bg-amber-800/50
           text-white
-          py-3
-          rounded-xl
-          text-lg
+          px-5 py-3
+          rounded-full
+          text-sm
           font-semibold
           hover:opacity-90
           transition
@@ -134,12 +135,12 @@ const intervalRef = useRef<number | null>(null);
         <button
           onClick={handleEnd}
           className="
-          w-full
+          
           bg-rose-500
           text-white
-          py-3
-          rounded-xl
-          text-lg
+          px-5 py-3
+          rounded-full
+          text-sm
           font-semibold
           hover:opacity-90
           transition

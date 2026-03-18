@@ -16,57 +16,63 @@ const actionLabelMap: Record<string, string> = {
 export default function NextActionCard({ action }: Props) {
   if (!action) return null;
 
-  const label = actionLabelMap[action.action_type] ?? action.action_type;
+  const labels = actionLabelMap[action.action_type] ?? action.action_type;
+
+   const diffStyle =
+    action.difficulty_level >= 4 ? "text-amber-600 bg-amber-50"
+    : action.difficulty_level >= 3 ? "text-orange-500 bg-orange-50"
+    : "text-green-600 bg-green-50"
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
+    <div className="w-full flex flex-col gap-3">
 
-      {/* Title */}
-      <h2 className="text-xl font-bold text-orange-500 mb-4 flex items-center gap-2">
-        <Brain size={22} />
-        Next Recommended Action
+      <h2 className="text-fluid-label font-black text-amber-700 tracking-widest
+                     uppercase flex items-center gap-1.5">
+        <Brain size={13} /> Next Action
       </h2>
 
-      {/* Action Type */}
-      <div className="bg-orange-50 rounded-xl p-4 mb-4">
-        <p className="font-semibold text-md  text-gray-800 flex items-center gap-2">
-          <Target size={18} className="text-orange-500" />
-          {label}
+      {/* Action type */}
+      <div className="bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-3">
+        <p className="text-fluid-sm font-bold text-stone-800 flex items-center gap-2">
+          <Target size={14} className="text-amber-600 shrink-0" />
+          {labels}
         </p>
       </div>
 
-      {/* Metrics Row */}
-      
+      {/* Duration */}
+      <div className="flex items-center gap-2 bg-blue-50 text-blue-700
+                      px-3.5 py-2.5 rounded-xl text-fluid-xs font-semibold">
+        <Clock size={13} />
+        {action.duration_minutes} min
+      </div>
 
-        {/* Duration */}
-        <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-2 my-4 rounded-lg text-sm font-medium">
-          <Clock size={16} />
-          {action.duration_minutes} min
+      {/* Difficulty */}
+      <div className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl
+                       text-fluid-xs font-semibold ${diffStyle}`}>
+        <Activity size={13} />
+        Difficulty {action.difficulty_level}/5
+        <div className="ml-auto flex gap-1">
+          {[1,2,3,4,5].map(n => (
+            <div key={n} className={`w-1.5 h-1.5 rounded-full transition-all
+                                     ${n <= action.difficulty_level ? "bg-current" : "bg-stone-200"}`} />
+          ))}
         </div>
-
-        {/* Difficulty */}
-      
-
-        <div className="flex items-center gap-2 my-4 bg-purple-50 text-purple-700 px-3 py-2 rounded-lg text-sm font-medium">
-          <Activity size={16} />
-          Difficulty {action.difficulty_level}/5
-        </div>
+      </div>
 
       {/* Message */}
-      <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-gray-600 italic text-sm">
-          {action.message}
-        </p>
+      <div className="bg-stone-50 rounded-xl px-3.5 py-3 text-fluid-xs
+                      text-stone-500 italic leading-relaxed">
+        {action.message}
       </div>
 
-      {/* Focus Area */}
+      {/* Focus area */}
       {action.reasoning?.mistake_type && (
-        <div className="mt-4 text-sm text-red-400 font-medium flex flex-col gap-2">
-         
-          <h1 className="font-bold flex items-center  gap-3"> <Target size={13}/>Focus area</h1>
-           <h2>{action.reasoning.mistake_type.replace("_", " ")}</h2>
+        <div className="flex items-center gap-1.5 text-fluid-xs text-amber-700 font-semibold">
+          <Target size={11} />
+          <span className="text-stone-400 font-normal">Focus:</span>
+          {action.reasoning.mistake_type.replace(/_/g, " ")}
         </div>
       )}
     </div>
-  );
+  )
 }
