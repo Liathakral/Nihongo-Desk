@@ -4,12 +4,13 @@
 
 ###  Analytics
 ![Alt text](https://i.ibb.co/XrmMPdf4/Screenshot-2026-03-11-at-11-24-25-AM.png)
+
 ### Dashboard
-![Alt text](https://ibb.co/hRdkrwgh)
+![Alt text](https://i.ibb.co/MyNxd1YY/Screenshot-2026-03-11-at-11-24-47-AM.png)
 ### chatbot
-![Alt text](https://ibb.co/fY6VY0F2)
+![Alt text](https://i.ibb.co/MyVMCkSH/Screenshot-2026-03-11-at-11-25-03-AM.png)
 ### AI Planner
-![Alt text](https://ibb.co/tpLmbVHH)
+![Alt text](https://i.ibb.co/whc0K5dd/Screenshot-2026-03-11-at-4-34-58-PM.png)
 
 
 
