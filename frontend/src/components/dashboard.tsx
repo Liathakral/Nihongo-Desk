@@ -3,7 +3,6 @@ import { useDashboardStore } from "../stores/DashboardStore";
 import NextActionCard from "./NextActionCard";
 import InsightCard from "./InsightCard";
 import nihongodesk from "../assets/nihongodesk.svg";
-import Timeline from "./TimelineList";
 import profile from "../assets/user_profile.svg";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "./UI/Loader";
