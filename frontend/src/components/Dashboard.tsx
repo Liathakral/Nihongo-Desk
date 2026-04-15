@@ -103,8 +103,8 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {insights.map((insight, i) => (
-              <InsightCard key={insight.id} insight={insight} index={i} />
+            {insights.map((insight) => (
+              <InsightCard key={insight.id} insight={insight}  />
             ))}
             {insights.length === 0 && (
               <div className="col-span-full text-center py-14 text-stone-300 text-sm">
