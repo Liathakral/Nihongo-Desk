@@ -2,9 +2,10 @@
 
 > An AI-powered Japanese language learning platform that tracks study sessions, generates personalized insights, and adapts your daily plan using GPT-4.
 
+### Architecture 
+![Alt text](https://i.ibb.co/zVZgWz3Q/nihongo-desk-architecture.jpg)
 ###  Analytics
 ![Alt text](https://i.ibb.co/XrmMPdf4/Screenshot-2026-03-11-at-11-24-25-AM.png)
-
 ### Dashboard
 ![Alt text](https://i.ibb.co/MyNxd1YY/Screenshot-2026-03-11-at-11-24-47-AM.png)
 ### chatbot
